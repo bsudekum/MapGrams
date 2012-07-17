@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Instagoggles</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <link rel="stylesheet" href="../leaflet4/dist/leaflet.css" />
+ <!--[if lte IE 8]><link rel="stylesheet" href="../leaflet4/dist/leaflet.ie.css" /><![endif]-->
+ 	<script src="../leaflet4/dist/leaflet.js"></script>
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+ 	<script src="jquery.instagram.js"></script>
+
+</head>
+<body>
+	<div id="map" style="width: 100%; height: 600px"></div>
+
+	<script>
+	//les Map
+		var map = new L.Map('map');
+
+		var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+			cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+			cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
+
+		map.setView(new L.LatLng(51.505, -0.09), 13).addLayer(cloudmade);
+
+		map.on('click', onMapClick);
+
+		var popup = new L.Popup();
+			
+			function onMapClick(e) {
+			var latStr = e.latlng.lat.toFixed(2);
+			var lngStr = e.latlng.lng.toFixed(2);
+
+			popup.setLatLng(e.latlng);
+			popup.setContent(lngStr + latStr);
+			map.openPopup(popup)
+
+
+		$(map).click(function() {
+	      var clientId = 'd2aaf005b31840b4b0342a2b478696a2';
+	      var latStr = e.latlng.lat.toFixed(2);
+		  var lngStr = e.latlng.lng.toFixed(2);   
+	      $(".instagram.search").instagram({
+	        search: {
+	          lat: latStr,
+	          lng: lngStr
+	        },
+	        show: 1,
+	        clientId: clientId
+	      });
+	    });
+
+		var photo = $(".instagram.search")
+
+		popup.setContent(lngStr + latStr + photo);
+	}
+
+	</script>
+</body>
+</html>
