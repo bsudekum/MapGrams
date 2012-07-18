@@ -61,13 +61,15 @@
 
 		map.on('click', onMapClick);
 		var popup = new L.Popup();
-			
+
 			function onMapClick(e) {
 			var latStr = e.latlng.lat.toFixed(2);
 			var lngStr = e.latlng.lng.toFixed(2);
-
+			
 			popup.setLatLng(e.latlng);
+			var circle = new L.Circle(e.latlng, 2000);
 			map.openPopup(popup)
+			map.addLayer(circle)
 
 
 		$(map).click(function() {
