@@ -61,56 +61,6 @@
 		<h5><em>Happenings.</em> What is happening around you through the lens of someone's phone</h5>
 		<h6>Looks like the map doesn't load photos from time to time. Still working out the kinks. Also, does not load first click.  Could use some help on this project. <a href="https://github.com/rsudekum/Happenings">Fork it</a><h6>
 	</div>
-	<script>
-
-//les Map
-		var map = new L.Map('map');
-
-		tiles = new L.TileLayer('http://a.tiles.mapbox.com/v3/bobbysud.map-94xylfrd/{z}/{x}/{y}.png', {maxZoom: 17});
-		map.setView(new L.LatLng(37.790794553924414, -122.44709014892578), 13).addLayer(tiles);
-
-		map.on('click', onMapClick);
-		var popup = new L.Popup();
-
-			function onMapClick(e) {
-			var latStr = e.latlng.lat.toFixed(2);
-			var lngStr = e.latlng.lng.toFixed(2);
-			
-			popup.setLatLng(e.latlng);
-			var circle = new L.Circle(e.latlng, 1000, {color: '#919191',
-			    fill: true,
-			    fillOpacity: .2,
-			    weight: 0
-			});
-
-			map.openPopup(popup)
-			map.addLayer(circle)
-
-
-		$(map).click(function() {
-	      var clientId = 'f62cd3b9e9a54a8fb18f7e122abc52df';
-
-	      var latStr = e.latlng.lat.toFixed(2);
-		  var lngStr = e.latlng.lng.toFixed(2);   
-
-	      $("#instagram").instagram({
-	        search: {
-	          lat: latStr,
-	          lng: lngStr
-	        },
-	        show: 1,
-	    	onload: 'Loading',
-
-	        clientId: clientId,
-	        show: 1,
-	      });
-	    });
-
-		var instagram = $("#instagram")
-
-
-		popup.setContent("<div id='instagram'></div>");
-	}
-	</script>
+	<script type="text/javascript" src="the_javascripts.js"></script>
 </body>
 </html>
