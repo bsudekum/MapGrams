@@ -3,54 +3,45 @@
     var that = this,
         apiEndpoint = "https://api.instagram.com/v1",
         settings = {
-            hash: null
-          , userId: null
-          , locationId: null
-          , search: null
-          , accessToken: null
-          , clientId: null
-          , show: null
-          , onLoad: null
-          , onComplete: null
-          , maxId: null
-          , minId: null
-          , next_url: null
+          hash: null,
+          search: null,
+          accessToken: null,
+          clientId: String,
+          show: null,
+          onLoad: null,
+          onComplete: null,
+          maxId: null,
+          minId: null
         };
         
     options && $.extend(settings, options);
     
     function createPhotoElement(photo) {
+     if((photo.caption) !== null){        var photo_content = photo.caption.text + "  -  ";      }      else {        var photo_content = " "      }
       return $('<div>')
         .addClass('instagram-placeholder')
         .attr('id', photo.id)
         .append(
           $('<a>')
-            .attr('target', '_blank')
-            .attr('href', photo.link)
+           // .attr('target', '_blank')
+      .attr('href', photo.images.thumbnail.url)
+      .attr('rel', 'lightbox-instagram')
+      .attr('title', photo.caption.text + "&nbsp;&nbsp;/&nbsp;&nbsp;" + "<span>&hearts;</span>&nbsp;" + photo.likes.count + "&nbsp;likes")  
             .append(
               $('<img>')
                 .addClass('instagram-image')
                 .attr('src', photo.images.thumbnail.url)
+                .attr('title', photo.caption.text + "&nbsp;&nbsp;/&nbsp;&nbsp;" + "<span>&hearts;</span>&nbsp;" + photo.likes.count + "&nbsp;likes")
             )
         );
     }
-    
-    function createEmptyElement() {
-      return $('<div>')
-        .addClass('instagram-placeholder')
-        .attr('id', 'empty')
-        .append($('<p>').html('No photos for this query'));
-    }
+  
+  
     
     function composeRequestURL() {
-
       var url = apiEndpoint,
           params = {};
       
-      if (settings.next_url != null) {
-        return settings.next_url;
-      }
-
       if(settings.hash != null) {
         url += "/tags/" + settings.hash + "/media/recent";
       }
@@ -62,22 +53,14 @@
         settings.search.min_timestamp != null && (params.min_timestamp = settings.search.min_timestamp);
         settings.search.distance != null && (params.distance = settings.search.distance);
       }
-      else if(settings.userId != null) {
-        url += "/users/" + settings.userId + "/media/recent";
-      }
-      else if(settings.locationId != null) {
-        url += "/locations/" + settings.locationId + "/media/recent";
-      }
       else {
         url += "/media/popular";
       }
       
       settings.accessToken != null && (params.access_token = settings.accessToken);
       settings.clientId != null && (params.client_id = settings.clientId);
-      settings.minId != null && (params.min_id = settings.minId);
-      settings.maxId != null && (params.max_id = settings.maxId);
 
-      url += "?" + $.param(params)
+      url += "?" + $.param(params);
       
       return url;
     }
@@ -90,19 +73,13 @@
       cache: false,
       url: composeRequestURL(),
       success: function(res) {
-        var length = typeof res.data != 'undefined' ? res.data.length : 0;
-        var limit = settings.show != null && settings.show < length ? settings.show : length;
+        settings.onComplete != null && typeof settings.onComplete == 'function' && settings.onComplete(res.data);
         
-        if(limit > 0) {
-          for(var i = 0; i < limit; i++) {
-            that.append(createPhotoElement(res.data[i]));
-          }
+        var limit = settings.show == null ? res.data.length : settings.show;
+        
+        for(var i = 0; i < limit; i++) {
+          that.append(createPhotoElement(res.data[i]));
         }
-        else {
-          that.append(createEmptyElement());
-        }
-
-        settings.onComplete != null && typeof settings.onComplete == 'function' && settings.onComplete(res.data, res);
       }
     });
     

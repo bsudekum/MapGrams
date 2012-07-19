@@ -17,15 +17,20 @@
 			margin: 0px;
 			padding: 0px;
 		}
-		#text {
-			font-size: 10px;
+		#header{
 			font-family: helvetica;
 			position: absolute;
-			left:0%;
-			bottom:0%;
-			width: :70%;
-			z-index: 10;
+			right:0%;
+			top:0%;
+			z-index: 100;
+			background-color: white;
+			opacity: .65;
+			padding: 0px;
+			margin: 0px;
+			text-align: center;
+			width: 300px;	
 		}
+
 		#map {
 		  width: 100%;
 		  height: 100%;
@@ -36,21 +41,26 @@
 		}
 
 		.leaflet-popup-content-wrapper {
-			-moz-border-radius: 5px;
-			-webkit-border-radius: 5px;
-			border-radius: 5px;
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
 		}
 
 		.leaflet-popup-content-wrapper {
 			width:188px;
 		}
+		.leaflet-popup-close-button {
+		background:  url();
+		}
 
 	</style>
 </head>
 <body>
-	<div id="text">Looks like the map doesn't load photos from time to time. Still working out the kinks.</div>
 	<div id="map"></div>
-
+	<div id="header">
+		<h5><em>Happenings.</em> What is happening around you through the lens of someone's phone</h5>
+		<h6>Looks like the map doesn't load photos from time to time. Still working out the kinks. Also, does not load first click.  Could use some help on this project. <a href="https://github.com/rsudekum/Happenings">Fork it</a><h6>
+	</div>
 	<script>
 
 //les Map
@@ -67,7 +77,12 @@
 			var lngStr = e.latlng.lng.toFixed(2);
 			
 			popup.setLatLng(e.latlng);
-			var circle = new L.Circle(e.latlng, 2000);
+			var circle = new L.Circle(e.latlng, 1000, {color: '#919191',
+			    fill: true,
+			    fillOpacity: .2,
+			    weight: 0
+			});
+
 			map.openPopup(popup)
 			map.addLayer(circle)
 
@@ -84,7 +99,10 @@
 	          lng: lngStr
 	        },
 	        show: 1,
-	        clientId: clientId
+	    	onload: 'Loading',
+
+	        clientId: clientId,
+	        show: 1,
 	      });
 	    });
 
