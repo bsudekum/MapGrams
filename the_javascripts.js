@@ -11,9 +11,6 @@ map.on('click', onMapClick);
 popup.setContent("<div id='instagram'></div>");
 
 function onMapClick(e) {
-    var latStr = e.latlng.lat.toFixed(2),
-        lngStr = e.latlng.lng.toFixed(2);
-
     if (!circle) {
         circle = new L.Circle(e.latlng, 1000, {
             color: '#919191',
@@ -28,7 +25,9 @@ function onMapClick(e) {
         
     popup.setLatLng(e.latlng);
 
-    map.openPopup(popup);
+    if (!map.hasLayer(popup)) {
+        map.openPopup(popup);
+    }
 
     $("#instagram").instagram({
         search: {
