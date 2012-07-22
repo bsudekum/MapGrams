@@ -75,6 +75,9 @@
       success: function(res) {
         settings.onComplete != null && typeof settings.onComplete == 'function' && settings.onComplete(res.data);
         
+        if (!res.data)
+          return;
+
         var limit = settings.show == null ? res.data.length : settings.show;
         
         for(var i = 0; i < limit; i++) {

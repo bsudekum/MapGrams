@@ -12,6 +12,7 @@
  	<script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
  	<script src="jquery.instagram.js"></script>
+ 	<script type="text/javascript" src="underscore-min.js"></script>
  	
 	
 	<style type="text/css">
@@ -76,11 +77,51 @@
 		}
 
 		.leaflet-popup-content-wrapper {
-			width:188px;
+			width:172px;
 		}
+
 		.leaflet-popup-close-button {
-		background:  url();
+			background:  url();
 		}
+
+
+		.leaflet-popup-content p {
+			margin: 0px;
+			text-align: center;
+			font-size: 14;
+		}
+		.leaflet-popup-content {
+			margin: 7px 10px;
+			margin-bottom:5px;
+		}
+		#instagram-caption{
+			font-style: oblique;
+		}
+		#instagram-profile{
+			position: relative;
+			margin-bottom:1px;
+		}
+
+		#instagram-time{
+			text-align: right;
+			font-size: 10px;
+		}
+
+		#instagram-username{
+			text-align: right;
+			font-size: 10px;
+		}
+		#instagram-likes{
+			text-align: right;
+			font-size: 10px;
+		}
+		#info {
+			margin-bottom: -35px;
+			text-align: right;
+
+		}
+
+
 
 	</style>
 </head>
@@ -93,9 +134,9 @@
 	<script>
 	
 			//les Map
-				var map = new L.Map('map'),
+			var map = new L.Map('map'),
 			    tiles = new L.TileLayer('http://a.tiles.mapbox.com/v3/bobbysud.map-94xylfrd/{z}/{x}/{y}.png', {maxZoom: 17}),
-			    popup = new L.Popup(),
+			    photoLayer = new L.LayerGroup(),
 			    clientId = 'f62cd3b9e9a54a8fb18f7e122abc52df',
 			    circle;
 
@@ -103,42 +144,50 @@
 
 			map.on('click', onMapClick);
 
-			popup.setContent("<div id='instagram-photo'></div><p id='instagram-caption'></p>");
+			map.addLayer(photoLayer);
 
 			function onMapClick(e) {
 			    if (!circle) {
-			        circle = new L.Circle(e.latlng, 1000, {
+			        circle = new L.Circle(e.latlng, 1500, {
 			            color: '#919191',
 			            fill: true,
-			            fillOpacity: 0.2,
-			            weight: 0
+			            fillOpacity: 0.1,
+			            weight: 1.5,
+			            clickable: false,
 			        });
 			        map.addLayer(circle)
 			    } else {
 			        circle.setLatLng(e.latlng);
 			    }
-			        
-			    popup.setLatLng(e.latlng);
 
-			    if (!map.hasLayer(popup)) {
-			        map.openPopup(popup);
-			    }
+			    $().instagram({
+			    	search: {
+			    		lat: e.latlng.lat.toFixed(2),
+			    		lng: e.latlng.lng.toFixed(2)
+			    	},
+			    	clientId: clientId,
+			    	onComplete: function(photos){
+			    		photoLayer.clearLayers();
 
-			    $("#instagram-photo").instagram({
-			        search: {
-			            lat: e.latlng.lat.toFixed(2),
-			            lng: e.latlng.lng.toFixed(2)
-			        },
-			        show: 1,
-			        onload: 'Loading',
-			        clientId: clientId,
-			        onComplete: function(photos) {
-			            if (photos && photos.length > 0 && photos[0].caption && photos[0].caption.text) {
-			                $('#instagram-caption').text(photos[0].caption.text);
-			            }
-			        }
+			    		_.each(photos, function(photo) {
+			    			if (photo.location)
+			    			{
+			    				var object =  new L.CircleMarker(new L.LatLng(photo.location.latitude, photo.location.longitude), {
+			    					radius: 5,
+			    					clickable: true
+			    				});
+			    				
+			    				var photoTemplate = _.template($("#popupTemplate").html(), {photo: photo});
+			    				object.bindPopup(photoTemplate);
+
+			    				photoLayer.addLayer(object);
+			    			}
+			    		});
+			    	}
 			    });
 			}
+
+
 
 
 			// Add zoom out button
@@ -150,7 +199,7 @@
       		  })
       		  .appendTo($('#map'));
 
-
+      		
 
 		
 	</script>
@@ -166,6 +215,62 @@
 		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		  })();
 
+	</script>
+
+
+
+
+
+	<script id="popupTemplate" type="text/template">
+		
+		
+	
+		<div id="info">
+		
+		<p id="instagram-username"> 
+			<% if(photo.user.username) { %>
+				<%=	photo.user.username%>
+			<% } %>:
+		</p>
+
+		<p id="instagram-time"> 
+		 
+			<% if(photo.caption) { %>
+				<%=	photo.caption.created_time%>
+			<% } %>:
+		</p>
+
+		<p id="instagram-likes"> 
+		 
+			<% if(photo.caption) { %>
+				<%=	photo.likes.count%><span>&hearts;</span>&nbsp;
+			<% } %>:
+		</p>
+		</div>
+			<div id="instagram-profile">
+			<img src=<%= photo.user.profile_picture %> height=5%> <%width=5%>
+		</div>
+
+		<div id="instagram-photo">
+			<img src=<%= photo.images.thumbnail.url %>
+		</div>
+
+		<p id="instagram-caption">
+		
+			<% if(photo.caption) { %>
+				<%=	photo.caption.text  %>
+			<% } %> 
+		</p>
+
+
+
+		
+	</script>
+
+<script type="text/javascript">
+
+			var aDate = $.ready("#instagram-time").val();
+			var epoch = new Date(aDate[0], aDate[1], aDate[2]).getTime() / 1000;
 	</script>
 
 </body>
