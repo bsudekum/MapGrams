@@ -6,9 +6,10 @@
 	<title>Happenings</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  <link rel="stylesheet" href="leaflet4/dist/leaflet.css" />
- <!--[if lte IE 8]><link rel="stylesheet" href="leaflet4/dist/leaflet.ie.css" /><![endif]-->
+	<link rel="stylesheet" href="leaflet4/dist/leaflet.css" />
+ 	<!--[if lte IE 8]><link rel="stylesheet" href="leaflet4/dist/leaflet.ie.css" /><![endif]-->
  	<script src="leaflet4/dist/leaflet.js"></script>
+ 	<script src="http://cdn.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
  	<script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
  	<script src="jquery.instagram.js"></script>
@@ -88,7 +89,7 @@
 		.leaflet-popup-content p {
 			margin: 0px;
 			text-align: center;
-			font-size: 14;
+			font-size: 13;
 		}
 		.leaflet-popup-content {
 			margin: 7px 10px;
@@ -118,8 +119,21 @@
 		#info {
 			margin-bottom: -35px;
 			text-align: right;
-
 		}
+
+		#instagram-profile img {
+		    margin-bottom: 1px;
+		    max-height: 42px;
+		    max-width: 42px;
+		    position: relative;
+		}
+
+		@media (max-device-width: 480px) {
+    		#header {
+        	display: none; 
+    		}
+		}
+
 
 
 
@@ -128,19 +142,36 @@
 <body>
 	<div id="map"></div>
 	<div id="header">
-		<h5><h2>Happenings.</h2> What is happening around you through the lens of someone's phone</h5>
-		<h6>Note: still a little buggy. Sometimes it decides not load photos. I could use some help on this project...<em><a href="https://github.com/rsudekum/Happenings">Fork it</a></em><h6>
+		<h5><h2>Happenings</h2> Find out what is happening around you through Instagram</h5>
+		<h6>Note: Super buggy. Sorry if it does not load photos for you. Please try again later! <em><a href="https://github.com/rsudekum/Happenings">Fork it</a></em><h6>
 	</div>
+
 	<script>
 	
 			//les Map
 			var map = new L.Map('map'),
-			    tiles = new L.TileLayer('http://a.tiles.mapbox.com/v3/bobbysud.map-94xylfrd/{z}/{x}/{y}.png', {maxZoom: 17}),
+			    tiles = new L.TileLayer('http://a.tiles.mapbox.com/v3/bobbysud.map-ez4mk2nl/{z}/{x}/{y}.png', {maxZoom: 17}),
 			    photoLayer = new L.LayerGroup(),
 			    clientId = 'f62cd3b9e9a54a8fb18f7e122abc52df',
 			    circle;
 
-			map.setView(new L.LatLng(37.790794553924414, -122.44709014892578), 13).addLayer(tiles);
+		map.addLayer(tiles);
+
+		map.on('locationfound', onLocationFound);
+		map.on('locationerror', onLocationError);
+
+		map.locateAndSetView(13);
+
+
+		function onLocationFound(e) {
+			
+		}
+
+		function onLocationError(e) {
+			map.setView(new L.LatLng(37.76745803822967, -122.45018005371094), 13).addLayer(tiles);
+		}
+
+
 
 			map.on('click', onMapClick);
 
@@ -148,7 +179,7 @@
 
 			function onMapClick(e) {
 			    if (!circle) {
-			        circle = new L.Circle(e.latlng, 1500, {
+			        circle = new L.Circle(e.latlng, 1700, {
 			            color: '#919191',
 			            fill: true,
 			            fillOpacity: 0.1,
@@ -173,7 +204,7 @@
 			    			if (photo.location)
 			    			{
 			    				var object =  new L.CircleMarker(new L.LatLng(photo.location.latitude, photo.location.longitude), {
-			    					radius: 5,
+			    					radius: 7,
 			    					clickable: true
 			    				});
 			    				
@@ -248,7 +279,7 @@
 		</p>
 		</div>
 			<div id="instagram-profile">
-			<img src=<%= photo.user.profile_picture %> height=5%> <%width=5%>
+			<img src=<%= photo.user.profile_picture %>>
 		</div>
 
 		<div id="instagram-photo">
