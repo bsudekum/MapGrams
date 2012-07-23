@@ -12,3 +12,4 @@ Demo [map](http:visuallybs.com/maps/happenings)
 * Light box for photos onClick
 * Looking to bring in Foursquare 'swarming' data
 * ~~Only load 1 photo or better layour for loading many photos~~
+* Update the design and general layout
