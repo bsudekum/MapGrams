@@ -64,14 +64,17 @@ var map = new L.Map('map'),
 
 			    				photoLayer.addLayer(object);
 
-			    				
+
 			    			}
 			    		});
 			    	}
 			    });
 			}
 
-
+			map.on("popupopen", function(e){
+  date = new Date(parseInt($("#timeago").html())*1000);
+  $('#timeago').text($.timeago(date));
+});	
 
 
 			// Add zoom out button
