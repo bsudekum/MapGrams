@@ -56,7 +56,10 @@ $(document).ready(function () {
                     if (photo.location) {
                         var object = new L.CircleMarker(new L.LatLng(photo.location.latitude, photo.location.longitude), {
                             radius: 7,
-                            clickable: true
+                            clickable: true,
+                            stroke: 0,
+                      		fillOpacity: .5,
+                            color:'#FF9933',
                         });
 
                         var photoTemplate = _.template($("#popupTemplate").html(), {

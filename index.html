@@ -1,83 +1,81 @@
+
+
 <!DOCTYPE html>
 <html>
-    
-    <head>
-        <title>Happenings</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="leaflet4/dist/leaflet.css" />
-        <link rel="stylesheet" href="app/custom.css" />
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="leaflet4/dist/leaflet.ie.css" />
-        <![endif]-->
-        <script src="leaflet4/dist/leaflet.js"></script>
-        <script src="http://cdn.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
-        <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <script src="http://timeago.yarp.com/jquery.timeago.js"></script>
-        <script src="jquery.instagram.js"></script>
-        <script src="app/app.js"></script>
-        <script type="text/javascript" src="underscore-min.js"></script>
-    </head>
-    
-    <body>
-        <div id="map"></div>
-        <div id="header">
-            <h5>
-                <h2>Happenings</h2>Find out what is happening around you through Instagram</h5>
-            <h6>Note: Super buggy. Sorry if it does not load photos for you. Please try
-                again later!
-                <em>
-                    <a href="https://github.com/rsudekum/Happenings">Fork it</a>
-                </em>
-                <h6>
-        </div>
-        <script id="popupTemplate" type="text/template">
-            < div id = "info" >
+<head>
+	<title>Happenings</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="leaflet4/dist/leaflet.css" />
+	<link rel="stylesheet" href="app/custom.css" />
+ 	<!--[if lte IE 8]><link rel="stylesheet" href="leaflet4/dist/leaflet.ie.css" /><![endif]-->
+ 	<script src="leaflet4/dist/leaflet.js"></script>
+ 	<script src="http://cdn.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
+ 	<script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+ 	<script src="http://timeago.yarp.com/jquery.timeago.js"></script>
+ 	<script src="jquery.instagram.js"></script>
+ 	<script src="app/app.js"></script>
+ 	<script type="text/javascript" src="underscore-min.js"></script>
+</head>
 
-             < p id = "instagram-username" > <%
-            if (photo.user.username) { %> <%= photo.user.username %> <%
-            } %> < /p>
+<body>
+	<div id="map"></div>
+	<div id="header">
+		<h5><h2>Happenings</h2> Find out what is happening around you through Instagram</h5>
+		<h6>Note: Super buggy. Sorry if it does not load photos for you. Please try again later! <em><a href="https://github.com/rsudekum/Happenings">Fork it</a></em><h6>
+	</div>
+
+	<script id="popupTemplate" type="text/template">
+	
+		<div id="info">
+		
+			<p id="instagram-username"> 
+				<% if(photo.user.username) { %>
+					<%=	photo.user.username%>
+				<% } %>
+			</p>
 
 			<p id="timeago"> 
 				<% if(photo.caption) { %>
 					<%=	photo.caption.created_time%>
 				<% } %>
-			</p >
+			</p>
 
-             < p id = "instagram-likes" > <%
-            if (photo.caption) { %> <%= photo.likes.count %> < span > & hearts; < /span>&nbsp;
+			<p id="instagram-likes"> 
+				<% if(photo.caption) { %>
+					<%=	photo.likes.count%><span>&hearts;</span>&nbsp;
 				<% } %>
-			</p >
+			</p>
 
-                < /div>
+		</div>
 
 		<div id="instagram-profile">
 			<img src=<%= photo.user.profile_picture %>>
-		</div >
+		</div>
 
-                < div id = "instagram-photo" > < img src = <%= photo.images.thumbnail.url %> < /div>
+		<div id="instagram-photo">
+			<img src=<%= photo.images.thumbnail.url %>
+		</div>
 
 		<p id="instagram-caption">
 			<% if(photo.caption) { %>
 				<%=	photo.caption.text  %>
 			<% } %> 
-		</p >
-        </script>
-        <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-22516962-1']);
-            _gaq.push(['_trackPageview']);
+		</p>
 
-            (function () {
-                var ga = document.createElement('script');
-                ga.type = 'text/javascript';
-                ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-    </body>
+	</script>
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-22516962-1']);
+		  _gaq.push(['_trackPageview']);
 
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+	</script>
+
+</body>
 </html>
