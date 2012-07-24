@@ -97,7 +97,7 @@ body {
 	font-size: 10px;
 }
 #info {
-	margin-bottom: -35px;
+	margin-bottom: -40px;
 	text-align: right;
 }
 
@@ -106,6 +106,10 @@ body {
     max-height: 42px;
     max-width: 42px;
     position: relative;
+}
+
+#twitter {
+	text-align: right;
 }
 
 @media (max-device-width: 480px) {
