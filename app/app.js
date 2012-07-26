@@ -1,5 +1,57 @@
+var token, authorizeApp, url, getToken,request;
+    
+/* For use with future release using access token 	
+redirectUrl = 'http://localhost/development/happenings/index.html'
+authorizeApp = function(user) {
+  return window.location.href = 'https://instagram.com/oauth/authorize/?client_id=' + clientId + '&redirect_uri='+redirectUrl+'&response_type=token';
+}
+getToken = function() {
+	return window.location.href.split('#access_token=')[1]
+}
+*/
+
+request = function(long,lat,clientId,photoLayer) {
+    $.ajax({
+        type: "GET",
+        dataType: "jsonp",
+        cache: false,
+        url: 'https://api.instagram.com/v1/media/search?lat='+lat+'&lng='+long+'&client_id=' + clientId,
+        success: function(photos) {
+            photoLayer.clearLayers();
+            _.each(photos.data, function (photo) {
+                if (photo.location) {
+                    var object = new L.CircleMarker(new L.LatLng(photo.location.latitude, photo.location.longitude), {
+                        radius: 7,
+                        clickable: true,
+                        stroke: 0,
+                  		fillOpacity: .5,
+                        color:'#FF9933',
+                    });
+
+                    var photoTemplate = _.template($("#popupTemplate").html(), {
+                        photo: photo
+                    });
+                    object.bindPopup(photoTemplate);
+
+                    photoLayer.addLayer(object);
+                }
+            });
+        }
+   });	
+}
+
 
 $(document).ready(function () {
+	
+	
+	// For use with future release using access token 	
+	/*
+    if (window.location.href.indexOf('access_token') > 0) {
+    	token = getToken();
+    } else {
+    	authorizeApp();	
+    }
+	*/
 
     var map = new L.Map('map'),
         tiles = new L.TileLayer('http://a.tiles.mapbox.com/v3/bobbysud.map-ez4mk2nl/{z}/{x}/{y}.png', {
@@ -30,6 +82,7 @@ $(document).ready(function () {
     map.addLayer(photoLayer);
 
     function onMapClick(e) {
+
         if (!circle) {
             circle = new L.Circle(e.latlng, 1700, {
                 color: '#919191',
@@ -42,38 +95,7 @@ $(document).ready(function () {
         } else {
             circle.setLatLng(e.latlng);
         }
-
-        $().instagram({
-            search: {
-                lat: e.latlng.lat.toFixed(2),
-                lng: e.latlng.lng.toFixed(2)
-            },
-            clientId: clientId,
-            onComplete: function (photos) {
-                photoLayer.clearLayers();
-
-                _.each(photos, function (photo) {
-                    if (photo.location) {
-                        var object = new L.CircleMarker(new L.LatLng(photo.location.latitude, photo.location.longitude), {
-                            radius: 7,
-                            clickable: true,
-                            stroke: 0,
-                      		fillOpacity: .5,
-                            color:'#FF9933',
-                        });
-
-                        var photoTemplate = _.template($("#popupTemplate").html(), {
-                            photo: photo
-                        });
-                        object.bindPopup(photoTemplate);
-
-                        photoLayer.addLayer(object);
-
-
-                    }
-                });
-            }
-        });
+	    request(+e.latlng.lng.toFixed(2),e.latlng.lat.toFixed(2),clientId,photoLayer)
     }
 
     map.on("popupopen", function (e) {
