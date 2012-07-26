@@ -83,6 +83,11 @@ body {
 	margin-bottom:1px;
 }
 
+#instagram-photo {
+	width:150px;
+	height:150px;
+}
+
 #timeago{
 	text-align: right;
 	font-size: 10px;
