@@ -62,7 +62,7 @@ body {
 }
 
 .leaflet-popup-close-button {
-	background:  url();
+	top:5px;
 }
 
 
@@ -104,6 +104,7 @@ body {
 #info {
 	margin-bottom: -40px;
 	text-align: right;
+	padding-top: 5px;
 }
 
 #instagram-profile img {
