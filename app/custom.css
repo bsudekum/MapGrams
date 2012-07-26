@@ -133,7 +133,7 @@ body {
 	font-family:helvetica;
 	border-radius:3px;
 	padding:1px;
-	background: #ddd;
+	background: white;
 	opacity: 0.5;
 	-moz-opacity: 0.5;
 	filter:alpha(opacity=5);
@@ -159,7 +159,7 @@ body {
 	font-family:helvetica;
 	border-radius:3px;
 	padding:1px;
-	background: #ddd;
+	background: white;
 	opacity: 0.5;
 	-moz-opacity: 0.5;
 	filter:alpha(opacity=5);
