@@ -9,13 +9,13 @@ body {
 	top:0%;
 	z-index: 100;
 	background-color: white;
-	 opacity: 0.5;
-        -moz-opacity: 0.5;
-        filter:alpha(opacity=5);
+	opacity: 0.5;
+	-moz-opacity: 0.5;
+	filter:alpha(opacity=5);
 	padding: 0px;
 	margin: 0px;
 	text-align: center;
-	width: 300px;	
+	width: 200px;	
 }
 .tooltip {
     font-size:12px;
@@ -27,19 +27,19 @@ body {
     background-color: :white;
 }
 .zoom-out {
-   position: absolute;
-   top: 80px;
-   font-size: 8;
-   left: 13px;
-   z-index: 20;
-   font-family:helvetica;
-   border-radius:3px;
-   padding:3px;
-    background: #ddd;
-    opacity: 0.5;
-    -moz-opacity: 0.5;
-    filter:alpha(opacity=5);
-    cursor: pointer;
+	position: absolute;
+	top: 80px;
+	font-size: 8;
+	left: 13px;
+	z-index: 20;
+	font-family:helvetica;
+	border-radius:3px;
+	padding:3px;
+	background: #ddd;
+	opacity: 0.5;
+	-moz-opacity: 0.5;
+	filter:alpha(opacity=5);
+	cursor: pointer;
 }
 
 #map {
@@ -122,4 +122,57 @@ body {
 	#header {
 	display: none; 
 	}
+}
+
+.otherplace{
+	position: relative;
+	top: 105px;
+	font-size: 12px;
+	left: 13px;
+	z-index: 20;
+	font-family:helvetica;
+	border-radius:3px;
+	padding:1px;
+	background: #ddd;
+	opacity: 0.5;
+	-moz-opacity: 0.5;
+	filter:alpha(opacity=5);
+	cursor: pointer;
+	width:0;
+    vertical-align:middle;
+    display:inline;
+  }
+
+.otherplace:hover{
+	opacity: 1;
+	-moz-opacity: 1;
+	filter:alpha(opacity=1);
+}
+
+.show_hide{
+	position: relative;
+	top: 75px;
+	text-decoration: none;
+	font-size: 15px;
+	left: 13px;
+	z-index: 20;
+	font-family:helvetica;
+	border-radius:3px;
+	padding:1px;
+	background: #ddd;
+	opacity: 0.5;
+	-moz-opacity: 0.5;
+	filter:alpha(opacity=5);
+	cursor: pointer;
+	width:0;
+    vertical-align:middle;
+    display:inline;
+    text-align: left;
+    width: 50px;
+    cursor: pointer;
+}
+.show_hide:hover{
+	opacity: 1;
+	-moz-opacity: 1;
+	filter:alpha(opacity=1);
 }

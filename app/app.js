@@ -96,20 +96,78 @@
     map.locateAndSetView(13);
     map.on('click', onMapClick);
     map.addLayer(photoLayer);
-    map.on("popupopen", function(e) {
-      var date;
-      date = new Date(parseInt($("#timeago").html()) * 1000);
-      $('.leaflet-popup-pane').css('opacity', '0').css('margin-top', '0');
-      $('#timeago').text($.timeago(date));
-      return $('.leaflet-popup-pane').animate({
-        opacity: 1,
-        marginTop: '-5'
-      }, 500, function() {});
+
+    map.on("popupopen", function (e) {
+
+//Time since function
+
+    date = new Date(parseInt($("#timeago").html()) * 1000);
+    $('#timeago').text($.timeago(date));
+
+//Random background generator
+
+    var colors = ["#E8D5DB","#F0E8DD","#F0FFEB","#EBFDFF" ];                
+    var rand = Math.floor(Math.random()*colors.length);           
+    $('.leaflet-popup-content-wrapper, .leaflet-popup-tip, .leaflet-popup-close-button').css("background-color", colors[rand]);
+
+//Slow animation function
+
+    $('.leaflet-popup-pane').css('opacity', '0').css('margin-top', '0');
+    return $('.leaflet-popup-pane').animate({
+    opacity: 1,
+    marginTop: '-5'
+    }, 500, function() {});
     });
-    return $('<div>zoom out</div>').addClass('zoom-out').attr('title', 'See somewhere other than San Francisco, the map demo capital of the world.').click(function() {
-      return map.setView(new L.LatLng(40.84706035607122, -94.482421875), 4);
+
+//Zoom somewhere else button
+  $(document).ready(function(){
+ 
+        $(".slidingDiv").show();
+        $(".otherplace").hide();
+ 
+    $('.show_hide').click(function(){
+    $(".otherplace").slideToggle();
+    });
+ 
+});
+
+
+     $('<div">Paris <br><br></div>').addClass('otherplace').attr('title', 'Paris').click(function() {
+      return map.setView(new L.LatLng(48.84562669931916, 2.3697853088378906), 13);
     }).appendTo($('#map'));
-  };
+
+     $('<div">Dubai <br><br></div>').addClass('otherplace').attr('title', 'Dubai').click(function() {
+      return map.setView(new L.LatLng(25.271139, 55.307485), 13);
+    }).appendTo($('#map'));
+
+     $('<div">Tokyo <br><br></div>').addClass('otherplace').attr('title', 'Tokyo').click(function() {
+      return map.setView(new L.LatLng(35.68853320738875, 139.74592208862305), 14);
+    }).appendTo($('#map'));
+
+     $('<div">New York City <br><br></div>').addClass('otherplace').attr('title', 'NYC').click(function() {
+      return map.setView(new L.LatLng(40.72514478577348, -73.9980697631836), 13);
+    }).appendTo($('#map'));
+
+     $('<div">London <br><br></div>').addClass('otherplace').attr('title', 'London').click(function() {
+      return map.setView(new L.LatLng(51.50820824957313, -0.127716064453125), 13);
+    }).appendTo($('#map'));
+
+     $('<div">Rio de Janerio</div>').addClass('otherplace').attr('title', 'Rio de Janerio').click(function() {
+      return map.setView(new L.LatLng(-22.89278094774026, -43.22776794433594), 13);
+    }).appendTo($('#map'));
+  
+  
+
+
+  
+  
+  
+};
+  
+
+
+
+
 
   $(document).ready(function() {
     mappingTasks();

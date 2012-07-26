@@ -15,3 +15,4 @@ Demo [map](http:visuallybs.com/maps/happenings)
 * Update the design and general layout
 * ~~Get rid of jquery.instagram.js and use own AJAX request~~
 * Make more reliable
+* Make the website RESTful
