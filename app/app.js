@@ -65,7 +65,9 @@
 
   mappingTasks = function() {
     var clientId, map, onLocationError, onLocationFound, onMapClick, photoLayer, tiles;
-    onLocationFound = function(e) {};
+    onLocationFound = function(e) {
+      map.setZoom(13)
+    };
     onLocationError = function(e) {
       return map.setView(new L.LatLng(37.76745803822967, -122.45018005371094), 13).addLayer(tiles);
     };
@@ -93,11 +95,12 @@
     map.addLayer(tiles);
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
-    map.locateAndSetView(13);
+    map.locate({setView:true}); 
     map.on('click', onMapClick);
     map.addLayer(photoLayer);
 
     map.on("popupopen", function (e) {
+
 
 //Time since function
 
@@ -155,20 +158,9 @@
      $('<div">Rio de Janerio</div>').addClass('otherplace').attr('title', 'Rio de Janerio').click(function() {
       return map.setView(new L.LatLng(-22.89278094774026, -43.22776794433594), 13);
     }).appendTo($('#map'));
-  
-  
-
-
-  
-  
-  
+    
 };
   
-
-
-
-
-
   $(document).ready(function() {
     mappingTasks();
     if (authToken === 1) {

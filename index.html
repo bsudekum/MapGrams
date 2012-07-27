@@ -10,18 +10,17 @@
 	<link rel="stylesheet" href="app/custom.css" />
  	<!--[if lte IE 8]><link rel="stylesheet" href="leaflet4/dist/leaflet.ie.css" /><![endif]-->
  	<script src="leaflet4/dist/leaflet.js"></script>
- 	<script src="http://cdn.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
- 	<script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
  	<script src="http://timeago.yarp.com/jquery.timeago.js"></script>
  	<script src="app/app.js"></script>
- 	<script type="text/javascript" src="underscore-min.js"></script>
+ 	<script type="text/javascript" src="app/underscore-min.js"></script>
 </head>
 
 <body>
 	<div id="map"></div>
 	<div id="header">
 		<h5><h2>Happenings</h2> Find out what is happening around you through Instagram</h5>
+		
 		<h6>Note: Super buggy. Sorry if it does not load photos for you. Please try again later! <em><a href="https://github.com/rsudekum/Happenings">Fork it</a></em><h6>
 	</div>
 	<div class="show_hide">Explore other places!</div>
@@ -51,13 +50,10 @@
 
 		</div>
 
-
-
 		<div id="instagram-profile">
 			<img src=<%= photo.user.profile_picture %>>
 		</div>
 
-		
 
 		<div id="instagram-photo">
 			<a href=<%= photo.images.standard_resolution.url %>>
@@ -71,11 +67,7 @@
 		</p>
 
 
-
-
 	</script>
-
-	
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', 'UA-22516962-1']);
