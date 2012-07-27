@@ -90,21 +90,28 @@ body {
 
 #timeago{
 	text-align: right;
-	font-size: 10px;
+
 }
 
 #instagram-username{
 	text-align: right;
-	font-size: 10px;
+
 }
 #instagram-likes{
 	text-align: right;
-	font-size: 10px;
+
+}
+
+.leaflet-popup-close-button{
+	top:12px;
 }
 #info {
-	margin-bottom: -40px;
+	margin-bottom: -50px;
 	text-align: right;
-	padding-top: 5px;
+	padding-top: 8px;
+	position: relative;
+	top: 15px;
+	font-size: 10px;
 }
 
 #instagram-profile img {
@@ -115,7 +122,17 @@ body {
 }
 
 #twitter {
-	text-align: right;
+	text-align: left;
+	opacity: 0.3;
+	-moz-opacity: 0.3;
+	filter:alpha(opacity=3);
+}
+
+#twitter:hover {
+	text-align: left;
+	opacity: 0.9;
+	-moz-opacity: 0.9;
+	filter:alpha(opacity=9);
 }
 
 @media (max-device-width: 480px) {
@@ -176,3 +193,8 @@ body {
 	-moz-opacity: 1;
 	filter:alpha(opacity=1);
 }
+
+#twitter{
+	text-align: left;
+}
+

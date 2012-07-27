@@ -28,6 +28,16 @@
     }
   };
 
+/*var MyIconType = L.Icon.extend({options: {
+    iconUrl: 'app/noun.png',
+    shadowUrl: 'leaflet4/dist/images/marker-shadow.png',
+    iconSize: new L.Point(40, 40),
+    shadowSize: null,
+    iconAnchor: new L.Point(20, 20),
+    popupAnchor: new L.Point(24, -10)}});
+*/
+
+
   request = function(long, lat, clientId, photoLayer) {
     var uri;
     if (token) {
@@ -45,11 +55,15 @@
         return _.each(photos.data, function(photo) {
           var object, photoTemplate;
           if (photo.location) {
+           /* var myIcon = new MyIconType();
+            object = new L.Marker(new L.LatLng(photo.location.latitude, photo.location.longitude), {
+             icon: myIcon
+            }); */
             object = new L.CircleMarker(new L.LatLng(photo.location.latitude, photo.location.longitude), {
-              radius: 7,
+              radius: 12,
               clickable: true,
-              stroke: 0,
-              fillOpacity: .5,
+              stroke: 1,
+              fillOpacity: .1,
               color: '#FF9933'
             });
             photoTemplate = _.template($("#popupTemplate").html(), {
@@ -100,6 +114,8 @@
     map.addLayer(photoLayer);
 
     map.on("popupopen", function (e) {
+
+    
 
 
 //Time since function
