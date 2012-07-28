@@ -15,7 +15,9 @@ body {
 	padding: 0px;
 	margin: 0px;
 	text-align: center;
-	width: 200px;	
+	width: 200px;
+	line-height: 13px;
+	height: 137px;	
 }
 .tooltip {
     font-size:12px;
@@ -196,5 +198,20 @@ body {
 
 #twitter{
 	text-align: left;
+	width: 10px;
 }
+
+.big-link { display:block; text-align: center; font-size: 13px; color: #06f; z-index: 110; padding-top: 12px; text-decoration: none }
+
+#myModal {
+	font-family: helvetica;
+	text-align: center;
+	padding: 0px;
+	text-decoration: none;
+}
+
+#myModal p{
+	text-decoration: none;
+}
+
 

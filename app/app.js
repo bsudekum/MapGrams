@@ -62,15 +62,28 @@
             object = new L.CircleMarker(new L.LatLng(photo.location.latitude, photo.location.longitude), {
               radius: 12,
               clickable: true,
-              stroke: 1,
-              fillOpacity: .1,
-              color: '#FF9933'
+              weight:1.25,
+              fillOpacity: .5,
+              fill: false,
+              stroke: false,
             });
+
             photoTemplate = _.template($("#popupTemplate").html(), {
               photo: photo
             });
+
+    var colors = ["#EA2E49","#D9CC3C","#A0E0A9","#00ADA7" ];                
+    var rand = Math.floor(Math.random()*colors.length);           
+    $('path.leaflet-clickable').css("fill", colors[rand]);
+
+    var colors = ["#C0C0C0"];                
+    var rand = Math.floor(Math.random()*colors.length);           
+    $('path.leaflet-clickable').css("stroke", colors[rand]);
+
+
             object.bindPopup(photoTemplate);
             return photoLayer.addLayer(object);
+
           }
         });
       }
@@ -89,6 +102,7 @@
       if (!circle) {
         circle = new L.Circle(e.latlng, 1700, {
           color: '#919191',
+      
           fill: true,
           fillOpacity: 0.1,
           weight: 1.5,
@@ -128,6 +142,7 @@
     var colors = ["#E8D5DB","#F0E8DD","#F0FFEB","#EBFDFF" ];                
     var rand = Math.floor(Math.random()*colors.length);           
     $('.leaflet-popup-content-wrapper, .leaflet-popup-tip, .leaflet-popup-close-button').css("background-color", colors[rand]);
+
 
 //Slow animation function
 

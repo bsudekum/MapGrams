@@ -3,26 +3,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Happenings</title>
+	<title>MapGrams</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="leaflet4/dist/leaflet.css" />
 	<link rel="stylesheet" href="app/custom.css" />
+	<link rel="stylesheet" href="app/reveal.css">
  	<!--[if lte IE 8]><link rel="stylesheet" href="leaflet4/dist/leaflet.ie.css" /><![endif]-->
  	<script src="leaflet4/dist/leaflet.js"></script>
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
- 	<script src="http://timeago.yarp.com/jquery.timeago.js"></script>
+ 	<script type="text/javascript" src="app/jquery.reveal.js"></script>
  	<script src="app/app.js"></script>
  	<script type="text/javascript" src="app/underscore-min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>
+	<script src="http://timeago.yarp.com/jquery.timeago.js"></script>
+
+
 </head>
 
 <body>
 	<div id="map"></div>
 	<div id="header">
-		<h5><h2>Happenings</h2> Find out what is happening around you through Instagram</h5>
+
 		
-		<h6>Note: Super buggy. Sorry if it does not load photos for you. Please try again later! <em><a href="https://github.com/rsudekum/Happenings">Fork it</a></em><h6>
+		<h5><h2>MapGrams</h2> Find out what is happening around you through Instagram</h5>
+		<a href="#" class="big-link" data-reveal-id="myModal" data-animation="fade">
+			More Information
+		</a>
+		
 	</div>
+
+
+<div id="myModal" class="reveal-modal">
+			<h2>MapGrams</h2>
+			<p>Say hello (<a href="mailto:hello@mapgrams.com">hello@mapgrams.com</a>) or fork it on <a href="https://github.com/rsudekum/Happenings">Github</a></p>
+			
+		
+		</div>
+
 	<div class="show_hide">Explore other places!</div>
 
 
