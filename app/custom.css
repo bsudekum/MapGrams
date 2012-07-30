@@ -5,7 +5,7 @@ body {
 #header{
 	font-family: helvetica;
 	position: absolute;
-	right:0%;
+	left:0%;
 	top:0%;
 	z-index: 100;
 	background-color: white;
@@ -53,6 +53,12 @@ body {
   top:0px;
 }
 
+.leaflet-left .leaflet-control {
+margin-left: 10px;
+position: absolute;
+right: 16px;
+}
+
 .leaflet-popup-content-wrapper {
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -65,6 +71,16 @@ body {
 
 .leaflet-popup-close-button {
 	top:5px;
+}
+
+.leaflet-left{
+	right:0px;
+}
+
+
+.leaflet-top{
+	position: absolute;
+	right:0px;
 }
 
 
@@ -145,21 +161,23 @@ body {
 
 .otherplace{
 	position: relative;
-	top: 105px;
+	top: 192px;
 	font-size: 12px;
 	left: 13px;
 	z-index: 20;
 	font-family:helvetica;
-	border-radius:3px;
-	padding:1px;
+
+	padding:2px;
 	background: white;
 	opacity: 0.5;
 	-moz-opacity: 0.5;
 	filter:alpha(opacity=5);
 	cursor: pointer;
-	width:0;
+	margin: 10px;
     vertical-align:middle;
     display:inline;
+
+
   }
 
 .otherplace:hover{
@@ -169,25 +187,24 @@ body {
 }
 
 .show_hide{
-	position: relative;
-	top: 75px;
+	position: absolute;
+	top: 150px;
 	text-decoration: none;
 	font-size: 15px;
-	left: 13px;
+	left: 21px;
 	z-index: 20;
 	font-family:helvetica;
-	border-radius:3px;
-	padding:1px;
+
+	padding:6px;
 	background: white;
 	opacity: 0.5;
 	-moz-opacity: 0.5;
 	filter:alpha(opacity=5);
 	cursor: pointer;
-	width:0;
     vertical-align:middle;
     display:inline;
     text-align: left;
-    width: 50px;
+
     cursor: pointer;
 }
 .show_hide:hover{
@@ -210,8 +227,32 @@ body {
 	text-decoration: none;
 }
 
-#myModal p{
+#myModal a{
 	text-decoration: none;
 }
 
+#myModal h2{
+	text-align: right;
+	text-decoration: none;
+	position: relative;
+top: -88px;
+right: 14px;
+}
 
+#img1 {
+	position: relative;
+left: -164px;
+top: 65px;
+}
+
+#img2 {
+	position: relative;
+left: 18px;
+top: -17px;
+}
+
+#plus{
+	position: relative;
+	top: 143px;
+left: -57px;
+}

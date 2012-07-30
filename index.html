@@ -1,10 +1,10 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
 	<title>MapGrams</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta charset="utf-8" />
+	<meta name="description" content="Find out what is happening around you with MapGrams. A map plus Instagram equals MapGrams." />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="leaflet4/dist/leaflet.css" />
 	<link rel="stylesheet" href="app/custom.css" />
@@ -17,33 +17,25 @@
  	<script type="text/javascript" src="app/underscore-min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>
 	<script src="http://timeago.yarp.com/jquery.timeago.js"></script>
-
-
 </head>
 
 <body>
 	<div id="map"></div>
-	<div id="header">
-
-		
+	<div id="header">	
 		<h5><h2>MapGrams</h2> Find out what is happening around you through Instagram</h5>
 		<a href="#" class="big-link" data-reveal-id="myModal" data-animation="fade">
 			More Information
 		</a>
-		
 	</div>
-
-
 <div id="myModal" class="reveal-modal">
-			<h2>MapGrams</h2>
-			<p>Say hello (<a href="mailto:hello@mapgrams.com">hello@mapgrams.com</a>) or fork it on <a href="https://github.com/rsudekum/Happenings">Github</a></p>
-			
-		
+			<div id="plus">+</div>
+			<div id="img1"><img src="app/map.png" height="111px" width="140px"></div><div id="img2"><img src="app/Instagram_logo.png" height="75px" width="75px"></div><h2> = MapGrams </h2>
+			<p>We love your feedback. Say <a href="mailto:hello@mapgrams.com">hello@mapgrams.com</a> or fork it on <a href="https://github.com/rsudekum/Happenings">Github</a></p>
+			<h6>Data provided by <a href="http://www.openstreetmap.org/">Open Street Maps</a>, map tiles by <a href="http://www.mapbox.com">Mapbox</a> and powered by <a href="http://www.leaflet.cloudmade.com">Leaflet</a></h6> 
+
 		</div>
 
 	<div class="show_hide">Explore other places!</div>
-
-
 	<script id="popupTemplate" type="text/template">
 	
 		<div id="info">
@@ -90,19 +82,18 @@
 			<% } %> 
 		</p>
 
-
-	</script>
-		<script type="text/javascript">
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-22516962-1']);
-		  _gaq.push(['_trackPageview']);
-
-		  (function() {
-		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
 	</script>
 
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-33721946-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
 </body>
 </html>

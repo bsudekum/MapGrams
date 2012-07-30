@@ -48,7 +48,7 @@
     return $.ajax({
       type: "GET",
       dataType: "jsonp",
-      cache: false,
+      cache: true,
       url: uri,
       success: function(photos) {
         photoLayer.clearLayers();
@@ -126,11 +126,7 @@
     map.locate({setView:true}); 
     map.on('click', onMapClick);
     map.addLayer(photoLayer);
-
     map.on("popupopen", function (e) {
-
-    
-
 
 //Time since function
 
@@ -142,7 +138,6 @@
     var colors = ["#E8D5DB","#F0E8DD","#F0FFEB","#EBFDFF" ];                
     var rand = Math.floor(Math.random()*colors.length);           
     $('.leaflet-popup-content-wrapper, .leaflet-popup-tip, .leaflet-popup-close-button').css("background-color", colors[rand]);
-
 
 //Slow animation function
 
