@@ -9,9 +9,9 @@ body {
 	top:0%;
 	z-index: 100;
 	background-color: white;
-	opacity: 0.5;
-	-moz-opacity: 0.5;
-	filter:alpha(opacity=5);
+	opacity: 0.8;
+	-moz-opacity: 0.8;
+	filter:alpha(opacity=8);
 	padding: 0px;
 	margin: 0px;
 	text-align: center;
@@ -19,6 +19,24 @@ body {
 	line-height: 13px;
 	height: 137px;	
 }
+
+#social{
+	font-family: helvetica;
+	position: absolute;
+	left:200px;
+	top:0%;
+	z-index: 100;
+	background-color: white;
+	opacity: 0.8;
+	-moz-opacity: 0.8;
+	filter:alpha(opacity=8);
+	padding: 4px;
+	margin: 0px;
+	width: 80px;
+	line-height: 26px;
+	height:81px;
+}
+
 .tooltip {
     font-size:12px;
     height:70px;
@@ -169,9 +187,9 @@ right: 16px;
 
 	padding:2px;
 	background: white;
-	opacity: 0.5;
-	-moz-opacity: 0.5;
-	filter:alpha(opacity=5);
+	opacity: 0.8;
+	-moz-opacity: 0.8;
+	filter:alpha(opacity=8);
 	cursor: pointer;
 	margin: 10px;
     vertical-align:middle;
@@ -194,12 +212,11 @@ right: 16px;
 	left: 21px;
 	z-index: 20;
 	font-family:helvetica;
-
 	padding:6px;
 	background: white;
-	opacity: 0.5;
-	-moz-opacity: 0.5;
-	filter:alpha(opacity=5);
+	opacity: 0.8;
+	-moz-opacity: 0.8;
+	filter:alpha(opacity=8);
 	cursor: pointer;
     vertical-align:middle;
     display:inline;
@@ -235,8 +252,8 @@ right: 16px;
 	text-align: right;
 	text-decoration: none;
 	position: relative;
-top: -88px;
-right: 14px;
+	top: -88px;
+	right: 14px;
 }
 
 #img1 {
