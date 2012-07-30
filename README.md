@@ -3,7 +3,7 @@
 #### Issues:
 * ~~First click does not load photos. Must click map twice.~~
 * ~~onClick does not reset with new lat long.~~
-* API does not load often.  Looking into removing jquery.instagram.js
+* ~~API does not load often.  Looking into removing jquery.instagram.js~~
 
 Demo [map](http:visuallybs.com/maps/happenings)
 
@@ -14,5 +14,5 @@ Demo [map](http:visuallybs.com/maps/happenings)
 * ~~Only load 1 photo or better layour for loading many photos~~
 * Update the design and general layout
 * ~~Get rid of jquery.instagram.js and use own AJAX request~~
-* Make more reliable
+* ~~Make more reliable~~
 * Make the website RESTful
