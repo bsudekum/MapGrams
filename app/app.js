@@ -72,7 +72,7 @@
               photo: photo
             });
 
-    var colors = ["#EA2E49","#D9CC3C","#A0E0A9","#00ADA7" ];                
+    var colors = ["#00A7D8","#FFE805","#FFA243","#87D300" ];                
     var rand = Math.floor(Math.random()*colors.length);           
     $('path.leaflet-clickable').css("fill", colors[rand]);
 
@@ -115,9 +115,7 @@
       return request(+e.latlng.lng.toFixed(2), e.latlng.lat.toFixed(2), clientId, photoLayer);
     };
     map = new L.Map('map');
-    tiles = new L.TileLayer('http://a.tiles.mapbox.com/v3/bobbysud.map-ez4mk2nl/{z}/{x}/{y}.png', {
-      maxZoom: 17
-    });
+    tiles = new L.TileLayer('http://a.tiles.mapbox.com/v3/bobbysud.map-ez4mk2nl/{z}/{x}/{y}.png', {maxZoom: 17});
     photoLayer = new L.LayerGroup();
     clientId = 'f62cd3b9e9a54a8fb18f7e122abc52df';
     map.addLayer(tiles);
