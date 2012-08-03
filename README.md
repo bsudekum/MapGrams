@@ -5,7 +5,7 @@
 * ~~onClick does not reset with new lat long.~~
 * ~~API does not load often.  Looking into removing jquery.instagram.js~~
 
-Demo [map](http:visuallybs.com/maps/happenings)
+Demo [map](http:mapgrams.com)
 
 #### To-do:
 * ~~Get image title below images~~
