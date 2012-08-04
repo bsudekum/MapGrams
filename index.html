@@ -15,9 +15,9 @@
  	<script type="text/javascript" src="app/jquery.reveal.js"></script>
  	<script src="app/app.js"></script>
  	<script type="text/javascript" src="app/underscore-min.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>
+
 	<script src="http://timeago.yarp.com/jquery.timeago.js"></script>
-</head>
+</head>  
 
 <body>
 
@@ -37,7 +37,7 @@
 		<div class="fb-like" data-href="http://www.mapgrams.com/" data-send="false" data-layout="button_count" data-width="450" data-show-faces="true"></div>
 		<a href="https://twitter.com/share" class="twitter-share-button" data-text="Check out Mapgrams- recent @Instagram photos near you." data-via="bobws">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-<a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.mapgrams.com%2F&media=http%3A%2F%2Fwww.mapgrams.com%2Fapp%2Fmap.png&description=Check%20out%20Mapgrams-%20recent%20%40Instagram%20photos%20near%20you." class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+<a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.mapgrams.com%2F&media=http%3A%2F%2Fwww.mapgrams.com%2Fapp%2Fmapgrams	.png&description=Check%20out%20Mapgrams-%20recent%20%40Instagram%20photos%20near%20you." class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
 	</div>	
 	<div id="header">	
 		<h5><h2>MapGrams</h2> Find out what is happening around you through Instagram</h5>
@@ -47,9 +47,9 @@
 	</div>
 <div id="myModal" class="reveal-modal">
 		
-			<div id="img1"><img src="app/mapgrams.png" height="111px" width="305px"></div><h2> = MapGrams </h2>
-			<p>We love your feedback. Say <a href="mailto:hello@mapgrams.com">hello@mapgrams.com</a> or fork it on <a href="https://github.com/rsudekum/Happenings">Github</a></p>
-			<h6>Data provided by <a href="http://www.openstreetmap.org/">Open Street Maps</a>, map tiles by <a href="http://www.mapbox.com">Mapbox</a> and powered by <a href="http://www.leaflet.cloudmade.com">Leaflet</a></h6> 
+			<div id="img1"><img src="app/mapgrams.png" height="111px" width="305px" title="Mapgrams. Instagram photos mapped on a map" alt="map photo Instagram world"></div><h2> = MapGrams </h2>
+			<p>We love your feedback. Say <a href="mailto:hello@mapgrams.com">hello@mapgrams.com</a> or fork it on <a href="https://github.com/rsudekum/MapGrams">Github</a></p>
+			<h6 style="font-size:10px; margin:40px">Data provided by <a href="http://www.openstreetmap.org/">Open Street Maps</a>, map tiles by <a href="http://www.mapbox.com">Mapbox</a> and powered by <a href="http://www.leaflet.cloudmade.com">Leaflet</a>. Created by <a href="http://visuallybs.com">Bobby Sudekum</a></h6> 
 
 		</div>
 
@@ -73,7 +73,8 @@
 			<p id="instagram-likes"> 
 				<% if(photo.caption) { %>
 					<%=	photo.likes.count%>
-				<% } %><span>&hearts;</span>&nbsp;
+				<% } %>
+				<span>&hearts;</span>&nbsp;
 			</p>
 
 		</div>

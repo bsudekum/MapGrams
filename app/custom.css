@@ -20,6 +20,12 @@ body {
 	height: 137px;	
 }
 
+a {
+  color:#0000FF;
+}
+
+
+
 #social{
 	font-family: helvetica;
 	position: absolute;
@@ -111,6 +117,11 @@ right: 16px;
 	margin: 7px 10px;
 	margin-bottom:5px;
 }
+.leaflet-popup-content h3 {
+	margin: 7px 10px;
+	margin-bottom:5px;
+	text-align: center;
+}
 #instagram-caption{
 	font-style: oblique;
 }
@@ -135,6 +146,9 @@ right: 16px;
 }
 #instagram-likes{
 	text-align: right;
+}
+#instagram-likes span {
+	color:red;
 
 }
 
@@ -175,16 +189,19 @@ right: 16px;
 	#header {
 	display: none; 
 	}
+	#social {
+		left:0px;
+	}
+
 }
 
 .otherplace{
 	position: relative;
-	top: 192px;
+	top: 170px;
 	font-size: 12px;
-	left: 13px;
+	left: 0px;
 	z-index: 20;
 	font-family:helvetica;
-
 	padding:2px;
 	background: white;
 	opacity: 0.8;
@@ -194,8 +211,6 @@ right: 16px;
 	margin: 10px;
     vertical-align:middle;
     display:inline;
-
-
   }
 
 .otherplace:hover{
@@ -206,10 +221,10 @@ right: 16px;
 
 .show_hide{
 	position: absolute;
-	top: 150px;
+	top: 137px;
 	text-decoration: none;
 	font-size: 15px;
-	left: 21px;
+	left: 0%;
 	z-index: 20;
 	font-family:helvetica;
 	padding:6px;
