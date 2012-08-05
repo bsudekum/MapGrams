@@ -3,7 +3,7 @@
 (function() {
   var authToken, authorizeApp, circle, searchRadius, getToken, mappingTasks, redirectUrl, request, token, tokenCheck;
 
-  circle = '';
+  circle = ''; 
 
   token = '';
 
@@ -52,12 +52,16 @@
           if (photo.location) {
 
               var MyIconType = L.Icon.extend({options: {
-    iconUrl: photo.images.thumbnail.url,
-    shadowUrl: null,
-    iconSize: new L.Point(40, 40),
-    shadowSize: null,   
-    iconAnchor: new L.Point(),
-    popupAnchor: new L.Point(20, 10)}});
+                iconUrl: photo.images.thumbnail.url,
+                shadowUrl: null,
+                iconSize: new L.Point(40, 40),
+                shadowSize: null,   
+                iconAnchor: new L.Point(),
+                popupAnchor: new L.Point(20, 10),
+                className:'photoIcon',
+              }});
+
+           
 
   var myIcon = new MyIconType();
             
@@ -70,6 +74,8 @@
             marker.bindPopup(photoTemplate);
             return photoLayer.addLayer(marker);
 
+
+
           }
         });
       }
@@ -77,7 +83,7 @@
   };
 
   mappingTasks = function() {
-    var clientId, map, onLocationError, onLocationFound, onMapClick, photoLayer, tiles;
+    var clientId, map, onLocationError, onLocationFound, onMapClick, photoLayer, storyId, tiles;
     function onLocationFound(e) {
       var radius = e.accuracy / 0;
 
@@ -93,11 +99,9 @@
       .bindPopup("<h3>Click the map to see Instagram photos!</h3>").openPopup();
 
       return map.setView(new L.LatLng(37.76745803822967, -122.45018005371094), 13).addLayer(tiles);
-
- 
-
-
     };
+
+
     onMapClick = function(e) {
       map.removeLayer(L.marker);
       if (!circle) {
@@ -122,9 +126,9 @@
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
     map.locate({setView:true}); 
-    map.on('click', onMapClick);
     map.addLayer(photoLayer);
-    map.on("popupopen", function (e) {
+    map.on('click', onMapClick);
+    map.on("popupopen", function () {
 
 //Time since function
 
@@ -145,6 +149,7 @@
     marginTop: '0'
     }, 1000, function() {});
     });
+
 
 //Zoom somewhere else button
   $(document).ready(function(){
@@ -192,7 +197,6 @@
     }
   });
 
-         
 
 }).call(this);
 
