@@ -298,5 +298,14 @@ left: -57px;
 	box-shadow:         1px 0px 5px rgba(50, 50, 50, 0.75);
 }
 
+.photoIcon:hover{
+	border-radius: 30px;
+	-webkit-transition: all 200ms cubic-bezier(0.420, 0.000, 1.000, 1.000); 
+   -moz-transition: all 200ms cubic-bezier(0.420, 0.000, 1.000, 1.000); 
+    -ms-transition: all 200ms cubic-bezier(0.420, 0.000, 1.000, 1.000); 
+     -o-transition: all 200ms cubic-bezier(0.420, 0.000, 1.000, 1.000); 
+        transition: all 200ms cubic-bezier(0.420, 0.000, 1.000, 1.000); /* ease-in */
+}
+
 
 

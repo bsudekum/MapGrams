@@ -59,7 +59,7 @@
                 iconAnchor: new L.Point(),
                 popupAnchor: new L.Point(20, 10),
                 className:'photoIcon',
-                zIndexOffset:0,
+                zIndexOffset:null,
                 }});
 
             var myIcon = new MyIconType();
@@ -99,6 +99,7 @@
 
 
     onMapClick = function(e) {
+
       if (!circle) {
         circle = new L.Circle(e.latlng, 2000, {
           color: '#919191',
@@ -123,7 +124,6 @@
     map.locate({setView:true}); 
     map.addLayer(photoLayer);
     map.on('click', onMapClick);
-    map.on('mouseover', hovering);
     map.on("popupopen", function () {
 
 //Time since function
