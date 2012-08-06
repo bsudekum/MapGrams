@@ -290,7 +290,9 @@ left: -57px;
 }
 
 .photoIcon {
-	border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;	
 	-webkit-box-shadow: 1px 0px 5px rgba(50, 50, 50, 0.75);
 	-moz-box-shadow:    1px 0px 5px rgba(50, 50, 50, 0.75);
 	box-shadow:         1px 0px 5px rgba(50, 50, 50, 0.75);

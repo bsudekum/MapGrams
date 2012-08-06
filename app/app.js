@@ -54,16 +54,15 @@
               var MyIconType = L.Icon.extend({options: {
                 iconUrl: photo.images.thumbnail.url,
                 shadowUrl: null,
-                iconSize: new L.Point(40, 40),
+                iconSize: new L.Point(45, 45),
                 shadowSize: null,   
                 iconAnchor: new L.Point(),
                 popupAnchor: new L.Point(20, 10),
                 className:'photoIcon',
-              }});
+                zIndexOffset:0,
+                }});
 
-           
-
-  var myIcon = new MyIconType();
+            var myIcon = new MyIconType();
             
             marker = new L.Marker(new L.LatLng(photo.location.latitude, photo.location.longitude), {icon: myIcon});
 
@@ -72,10 +71,7 @@
             });
 
             marker.bindPopup(photoTemplate);
-            return photoLayer.addLayer(marker);
-
-
-
+            photoLayer.addLayer(marker);
           }
         });
       }
@@ -103,13 +99,12 @@
 
 
     onMapClick = function(e) {
-      map.removeLayer(L.marker);
       if (!circle) {
-        circle = new L.Circle(e.latlng, 1700, {
+        circle = new L.Circle(e.latlng, 2000, {
           color: '#919191',
-          fill: true,
-          fillOpacity: 0.05,
-          weight: 1.5,
+          fill: false,
+          fillOpacity: 0,
+          weight: 1,
           clickable: false
         });
         map.addLayer(circle);
@@ -119,7 +114,7 @@
       return request(+e.latlng.lng.toFixed(2), e.latlng.lat.toFixed(2), clientId, photoLayer);
     };
     map = new L.Map('map');
-    tiles = new L.TileLayer('http://a.tiles.mapbox.com/v3/bobbysud.map-ez4mk2nl/{z}/{x}/{y}.png', {maxZoom: 17});
+    tiles = new L.TileLayer('http://a.tiles.mapbox.com/v3/bobbysud.map-ez4mk2nl/{z}/{x}/{y}.png', {maxZoom: 17, detectRetina:true});
     photoLayer = new L.LayerGroup();
     clientId = 'f62cd3b9e9a54a8fb18f7e122abc52df';
     map.addLayer(tiles);
@@ -128,6 +123,7 @@
     map.locate({setView:true}); 
     map.addLayer(photoLayer);
     map.on('click', onMapClick);
+    map.on('mouseover', hovering);
     map.on("popupopen", function () {
 
 //Time since function
