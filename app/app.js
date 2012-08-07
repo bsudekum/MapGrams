@@ -127,7 +127,7 @@
     map.on('click', onMapClick);
     map.on("popupopen", function () {
 
-
+      
 
 //Time since function
 
