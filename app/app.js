@@ -77,6 +77,7 @@
       }
     });
   };
+  
 
   mappingTasks = function() {
     var clientId, map, onLocationError, onLocationFound, onMapClick, photoLayer, storyId, tiles;
@@ -84,7 +85,7 @@
       var radius = e.accuracy / 0;
 
       L.marker(e.latlng).addTo(map)
-        .bindPopup("<h3>Click the map to see Instagram photos!</h3>").openPopup();
+        .bindPopup("<h3>Click the map to see Instagram photos!</h3><img src='http://www.mapgrams.com/app/mapgrams.png' title=MapGrams- Instagram photos mapped! alt=MapGrams- Map + Instagram width= '150px; height= '50px'/>" ).openPopup();
 
       L.circle(e.latlng, radius).addTo(map);
       map.setZoom(13);
@@ -92,7 +93,7 @@
 
     onLocationError = function(e) {
            L.marker([37.76745803822967, -122.45018005371094]).addTo(map)
-      .bindPopup("<h3>Click the map to see Instagram photos!</h3>").openPopup();
+        .bindPopup("<h3>Click the map to see Instagram photos!</h3><img src='http://www.mapgrams.com/app/mapgrams.png' title=MapGrams- Instagram photos mapped! alt=MapGrams- Map + Instagram width= '150px; height= '50px'/>" ).openPopup();
 
       return map.setView(new L.LatLng(37.76745803822967, -122.45018005371094), 13).addLayer(tiles);
     };
@@ -115,7 +116,7 @@
       return request(+e.latlng.lng.toFixed(2), e.latlng.lat.toFixed(2), clientId, photoLayer);
     };
     map = new L.Map('map');
-    tiles = new L.TileLayer('http://a.tiles.mapbox.com/v3/bobbysud.map-ez4mk2nl/{z}/{x}/{y}.png', {maxZoom: 17, detectRetina:true});
+    tiles = new L.TileLayer('http://{s}.tiles.mapbox.com/v3/bobbysud.map-ez4mk2nl/{z}/{x}/{y}.png', {maxZoom: 17, detectRetina:true});
     photoLayer = new L.LayerGroup();
     clientId = 'f62cd3b9e9a54a8fb18f7e122abc52df';
     map.addLayer(tiles);
@@ -125,6 +126,8 @@
     map.addLayer(photoLayer);
     map.on('click', onMapClick);
     map.on("popupopen", function () {
+
+
 
 //Time since function
 
