@@ -8,15 +8,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="leaflet4/dist/leaflet.css" />
 	<link rel="stylesheet" href="app/custom.css" />
+	<link rel="stylesheet" href="app/Control.BingGeocoder.css" />
 	<link rel="stylesheet" href="app/reveal.css">
  	<!--[if lte IE 8]><link rel="stylesheet" href="leaflet4/dist/leaflet.ie.css" /><![endif]-->
  	<script src="leaflet4/dist/leaflet.js"></script>
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
  	<script type="text/javascript" src="app/jquery.reveal.js"></script>
  	<script src="app/app.js"></script>
+ 	<script src="app/leaflet-hash.js"></script>
+ 	<script src="app/Control.BingGeocoder.js"></script>
  	<script type="text/javascript" src="app/underscore-min.js"></script>
 	<script src="http://timeago.yarp.com/jquery.timeago.js"></script>
-
 </head>  
 
 <body>
@@ -40,10 +42,11 @@
 <a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.mapgrams.com%2F&media=http%3A%2F%2Fwww.mapgrams.com%2Fapp%2Fmapgrams	.png&description=Check%20out%20Mapgrams-%20recent%20%40Instagram%20photos%20near%20you." class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
 	</div>	
 	<div id="header">	
-		<h5><h2>MapGrams</h2> Find out what is happening around you through Instagram</h5>
-		<a href="#" class="big-link" data-reveal-id="myModal" data-animation="fade">
-			More Information
-		</a>
+		<h2>MapGrams</h2>
+		<div class="geolocation">
+      <a href="#" onclick="geoLocate(); return false;" title="My Location">Locate me <img src="location.png" width="12" height="12"/></a>
+    </div>
+		<a href="#" class="big-link" data-reveal-id="myModal" data-animation="fade">More Information</a>
 	</div>
 <div id="myModal" class="reveal-modal">
 		
@@ -53,7 +56,7 @@
 
 		</div>
 
-	<div class="show_hide">Explore other places!</div> 
+	<!--<div class="show_hide">Explore other places!</div> -->
 	<script id="popupTemplate" type="text/template">
 	
 		<div id="info">
@@ -102,8 +105,39 @@
 		</p>
 
 	</script>
+	<script type="text/javascript">
+	var map = L.map('map').setView([37.77180027337861, -122.44434356689453], 13);
 
+		L.tileLayer('http://{s}.tiles.mapbox.com/v3/bobbysud.map-ez4mk2nl/{z}/{x}/{y}.png', {
+			maxZoom: 17,
+			
+		}).addTo(map);
 
+		L.marker([37.77098612371078, -122.46288299560547]).addTo(map)
+    .bindPopup("<h3>Click the map to see Instagram photos!</h3><img src='http://www.mapgrams.com/app/mapgrams.png' title=MapGrams- Instagram photos mapped! alt=MapGrams- Map + Instagram width= '150px; height= '50px'/>").openPopup();
+
+      
+      function geoLocate() {
+      	function onLocationFound(e) {
+			var radius = e.accuracy / 2;
+
+			L.marker(e.latlng).addTo(map)
+				.bindPopup("<h3>Looks like there are some cool things happening near you!</h3>").openPopup();
+
+			L.circle(e.latlng).addTo(map);
+		}
+
+		function onLocationError(e) {
+			alert(e.message);
+		}
+
+		map.on('locationfound', onLocationFound);
+		map.on('locationerror', onLocationError);
+
+        map.locate({setView: true, maxZoom: 13});
+
+      }
+      </script>
 <script type="text/javascript">
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-33721946-1']);
