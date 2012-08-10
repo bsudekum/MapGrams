@@ -21,10 +21,11 @@
         <script src="app/Control.BingGeocoder.js"></script>
         <script type="text/javascript" src="app/underscore-min.js"></script>
         <script src="http://timeago.yarp.com/jquery.timeago.js"></script>
+        <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.1.2"></script>
       
-    </head> 
+    </head>
     
-    <body>
+    <body> 
         <div id="fb-root"></div>
         <script>
 (function (d, s, id) {
@@ -81,11 +82,11 @@
                 title="Creative Commons Attribution Sharealike 2.0">CC-BY-SA</a>) See something missing? You can edit the map and contribute your local
                 knowledge at
                 <a href="http://www.openstreetmap.org/">OpenStreetMap.org</a>. Map tiles by
-                <a href="http://www.mapbox.com">Mapbox</a>and presented using
+                <a href="http://www.maps.stamen.com">Stamen</a> and presented using
                 <a href="http://www.leaflet.cloudmade.com">Leaflet</a>
             </h6>
             <h6 style="font-size:10px; margin:10px">Created by
-                <a href="http://visuallybs.com">Bobby Sudekum</a>. Check out MapGrams but on a <a href="http://www.mapgrams.com/water.html">pretty water-color map</a> by <a href="http://www.maps.stamen.com">Stamem</a>
+                <a href="http://visuallybs.com">Bobby Sudekum</a>
             </h6>
         </div>
         <!--<div class="show_hide">Explore other places!</div> -->
@@ -125,7 +126,7 @@
 
 
 		<div id="instagram-photo">
-			<a target='_blank' href=<%= photo.images.standard_resolution.url %>>
+			<a target='_blank' class='box' href=<%= photo.images.standard_resolution.url %>>
 
 				<img src=<%= photo.images.thumbnail.url %> />
                 
@@ -140,12 +141,15 @@
 
 	</script>
 	<script type="text/javascript">
-		var map = L.map('map').setView([37.77180027337861, - 122.44434356689453], 13);
-
-		L.tileLayer('http://{s}.tiles.mapbox.com/v3/bobbysud.map-ez4mk2nl/{z}/{x}/{y}.png', {
-		    maxZoom: 17,
-
-		}).addTo(map);
+        var layer = new L.StamenTileLayer("watercolor");
+        var label = new L.StamenTileLayer("toner-labels");
+        var map = new L.Map("map", {
+        center: new L.LatLng(37.7, -122.4),
+        zoom: 12
+        });
+        
+        map.addLayer(layer);
+        map.addLayer(label);
 
 		L.marker([37.77098612371078, - 122.46288299560547])
 			.addTo(map)

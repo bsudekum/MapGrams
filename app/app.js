@@ -72,6 +72,7 @@
 
                         photoTemplate = _.template($("#popupTemplate").html(), {
                             photo: photo
+
                         });
 
                         marker.bindPopup(photoTemplate);
@@ -82,10 +83,6 @@
             }
         });
     };
-
-
-    // http://caniuse.com/#feat=geolocation
-
 
 
     mappingTasks = function () {
@@ -121,6 +118,9 @@
         hash.init(map);
         map.on('click', onMapClick);
         map.on("popupopen", function () {
+
+
+           
 
             //Time since function
 
