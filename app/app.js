@@ -43,10 +43,10 @@
         return $.ajax({
             type: "GET",
             dataType: "jsonp",
-            cache: false,
+            cache: true,
             url: uri,
             success: function (photos) {
-                photoLayer.clearLayers();
+   
                 return _.each(photos.data, function (photo) {
                     var marker, photoTemplate;
                     if (photo.location) {
@@ -61,17 +61,20 @@
                                 popupAnchor: new L.Point(20, 10),
                                 className: 'photoIcon',
                                 zIndexOffset: null,
+
                             }
                         });
 
                         var myIcon = new MyIconType();
 
                         marker = new L.Marker(new L.LatLng(photo.location.latitude, photo.location.longitude), {
-                            icon: myIcon
+                            icon: myIcon,
+
                         });
 
                         photoTemplate = _.template($("#popupTemplate").html(), {
-                            photo: photo
+                            photo: photo,
+
 
                         });
 
@@ -83,12 +86,12 @@
             }
         });
     };
+    
+
 
 
     mappingTasks = function () {
-        var clientId, onMapClick, photoLayer, storyId;
-
-
+        var clientid, onMapClick, photoLayer, PhotoLayer, storyId;
 
         onMapClick = function (e) {
 
@@ -107,8 +110,7 @@
             }
             return request(+e.latlng.lng.toFixed(2), e.latlng.lat.toFixed(2), clientId, photoLayer);
         };
-
-
+      
         photoLayer = new L.LayerGroup();
         clientId = 'f62cd3b9e9a54a8fb18f7e122abc52df';
         var hash = new L.Hash();
@@ -119,8 +121,6 @@
         map.on('click', onMapClick);
         map.on("popupopen", function () {
 
-
-           
 
             //Time since function
 
@@ -139,7 +139,7 @@
             return $('.leaflet-popup-pane').animate({
                 opacity: 1,
                 marginTop: '0'
-            }, 1000, function () {});
+            }, 500, function () {});
         });
     };
 

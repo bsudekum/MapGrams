@@ -56,10 +56,13 @@
             <a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.mapgrams.com%2F&media=http%3A%2F%2Fwww.mapgrams.com%2Fapp%2Fmapgrams	.png&description=Check%20out%20Mapgrams-%20recent%20%40Instagram%20photos%20near%20you."
             class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
         </div>
+        <div class="geolocation">
+                <a href="#" onclick="geoLocate(); return false;" title="Find my Location"><img src="location.png"/></a>
+            </div>
         <div id="header">
             <h2>MapGrams</h2>
             <div class="geolocation">
-                <a href="#" onclick="geoLocate(); return false;" title="My Location">Locate me <img src="location.png" width="12" height="12"/></a>
+                <a href="#" onclick="geoLocate(); return false;" title="Find my Location">Locate Me <img src="location.png"/ height="12px" width="12px"></a>
             </div>
             <a href="#" class="big-link" data-reveal-id="myModal" data-animation="fade">More Information</a>
         </div>
@@ -73,17 +76,18 @@
                 <a href="mailto:hello@mapgrams.com">hello@mapgrams.com</a>or fork it on
                 <a href="https://github.com/rsudekum/MapGrams">Github</a>
             </p>
-            <h6 style="font-size:10px; margin:10px">The background map was created by thousands of volunteer contributors
+             <h6>What's up with the funny looking URL? The URL updates as you pan around the world (zoom, latitude, longitude). This makes it easy to share with a friend what is happening in <a href="http://www.mapgrams.com/#14/35.6710/139.7879">Tokyo</a> or my home town- <a href="http://www.mapgrams.com/#14/42.1071/-87.7378">Winnetka</a></h6>
+            <h6>The background map was created by thousands of volunteer contributors
                 to the OpenStreetMap project - The free wiki world map. OpenStreetMap is
                 not-for-profit, with a mission to map the whole world and release the data
                 for free with an open license (
                 <a href="http://creativecommons.org/licenses/by-sa/2.0/"
-                title="Creative Commons Attribution Sharealike 2.0">CC-BY-SA</a>) See something missing? You can edit the map and contribute your local
-                knowledge at
+                title="Creative Commons Attribution Sharealike 2.0">CC-BY-SA</a>)
                 <a href="http://www.openstreetmap.org/">OpenStreetMap.org</a>. Map tiles by
-                <a href="http://www.mapbox.com">Mapbox</a>and presented using
+                <a href="http://www.mapbox.com">Mapbox</a> and presented using
                 <a href="http://www.leaflet.cloudmade.com">Leaflet</a>
             </h6>
+           
             <h6 style="font-size:10px; margin:10px">Created by
                 <a href="http://visuallybs.com">Bobby Sudekum</a>. Check out MapGrams but on a <a href="http://www.mapgrams.com/water.html">pretty water-color map</a> by <a href="http://www.maps.stamen.com">Stamem</a>
             </h6>
@@ -97,6 +101,11 @@
 					<%=	photo.user.username%>
 				<% } %>
 			</p>
+            <p id="instagram-username"> 
+                <% if(photo.location.name) { %>
+                    <%= photo.location.name%>
+                <% } %>
+            </p>
 
 			<p id="timeago"> 
 				<% if(photo.caption) { %>
@@ -109,7 +118,7 @@
 				<% if(photo.caption) { %>
 					<%=	photo.likes.count%>
 				<% } %>
-				<span>&hearts;</span>&nbsp;
+				<span style="font-size:12px">&hearts;</span>&nbsp;
 			</p>
 
 		</div>
@@ -138,6 +147,60 @@
 				<%=	photo.caption.text  %>
 			<% } %> 
 		</p>
+        <script id="PopupTemplate" type="text/template">
+        <div id="info">
+    
+            <p id="instagram-username"> 
+                <% if(photo.user.username) { %>
+                    <%= photo.user.username%>
+                <% } %>
+            </p>
+            <p id="instagram-username"> 
+                <% if(photo.location.name) { %>
+                    <%= photo.location.name%>
+                <% } %>
+            </p>
+
+            <p id="timeago"> 
+                <% if(photo.caption) { %>
+                    <%= photo.caption.created_time%>
+                <% } %>
+            </p>
+
+
+            <p id="instagram-likes"> 
+                <% if(photo.caption) { %>
+                    <%= photo.likes.count%>
+                <% } %>
+                <span style="font-size:12px">&hearts;</span>&nbsp;
+            </p>
+
+        </div>
+
+        <div id="twitter">
+            <iframe allowtransparency="true" frameborder="0" scrolling="no"
+                src="https://platform.twitter.com/widgets/tweet_button.html?text=Check out what's happening!&url=<%= photo.link %>&via=bobws&count=none"
+                style="width:130px; height:20px;"></iframe>
+        </div>
+
+        <div id="instagram-profile">
+            <img src=<%= photo.user.profile_picture %>>
+        </div>
+
+
+        <div id="instagram-photo">
+            <a target='_blank' href=<%= photo.link %>>
+
+                <img src=<%= photo.images.thumbnail.url %> />
+                
+            </a>
+        </div>
+
+        <p id="instagram-caption">
+            <% if(photo.caption) { %>
+                <%= photo.caption.text  %>
+            <% } %> 
+        </p>
 
 	</script>
 	<script type="text/javascript">
@@ -157,7 +220,7 @@
 		function geoLocate() {
 		    function onLocationFound(e) {
 
-		        L.marker(e.latlng).addTo(map).bindPopup("<h3>Looks like there are some cool things happening near you!</h3>").openPopup();
+		        L.marker(e.latlng).addTo(map).bindPopup("<h3>Holy cow, you're right here and you're awesome!</h3>").openPopup();
 
 		        L.circle(e.latlng).addTo(map);
 		    }
@@ -171,7 +234,8 @@
 
 		    map.locate({
 		        setView: true,
-		        maxZoom: 13
+		        maxZoom: 13,
+                detectRetina: true
 		    });
 
 		}

@@ -20,8 +20,8 @@
 		left: 50%;
 		margin-left: -300px;
 		width: 520px;
-		background: #eee url(modal-gloss.png) no-repeat -200px -80px;
 		position: absolute;
+		background: #eee;
 		z-index: 101;
 		padding: 30px 40px 34px;
 		-moz-border-radius: 5px;
