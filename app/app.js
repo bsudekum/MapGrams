@@ -65,10 +65,12 @@
                             }
                         });
 
+
                         var myIcon = new MyIconType();
 
                         marker = new L.Marker(new L.LatLng(photo.location.latitude, photo.location.longitude), {
                             icon: myIcon,
+                            draggable:true,
 
                         });
 
