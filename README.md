@@ -10,7 +10,7 @@ Demo [map](http:visuallybs.com/maps/happenings)
 * Looking to bring in Foursquare 'swarming' data
 * ~~When hovering over thumbnail, bring photo to the front~~
 
-The MIT License
+####The MIT License
 
 Copyright (c) 2012 Olivier Louvignes
 
