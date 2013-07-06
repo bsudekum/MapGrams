@@ -1,0 +1,67 @@
+body {
+	overflow: hidden;
+	height: 100%;
+}
+#map{
+	position: absolute;
+	top: 42px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.ui-panel-content-wrap{
+	min-height: 100%!important;
+	height: 100%!important;
+}
+.ui-mobile .ui-page {
+	min-height: 100%!important;
+	height: 100%!important;
+}
+
+.ui-page-active.ui-page-panel {
+	overflow-x: visible!important;
+}
+form {
+	margin: 30px 0;
+}
+
+.open-panel{
+	position: relative;
+	top: -13px;
+	left: 30px;
+}
+
+#mypanel{
+	overflow: scroll;
+}
+
+.leaflet-marker-icon {
+	border-radius: 4px;
+}
+
+.my-div-icon {
+	background-color: #7AA6D5;
+	border-radius: 30px;
+	animation: dotPulse 2000ms linear 0ms infinite;
+	-moz-animation: dotPulse 2000ms linear 0ms infinite;
+	-webkit-animation: dotPulse 2000ms linear 0ms infinite;
+}
+
+@-webkit-keyframes dotPulse {
+  0%   { box-shadow:white 0px 0px 0px 2px, rgba(255,255,255,1) 0px 0px 0px 3px; }
+  100% { box-shadow:white 0px 0px 0px 2px, rgba(255,255,255,0) 0px 0px 0px 18px; }
+}
+@-moz-keyframes dotPulse {
+  0%   { box-shadow:white 0px 0px 0px 2px, rgba(255,255,255,1) 0px 0px 0px 3px; }
+  100% { box-shadow:white 0px 0px 0px 2px, rgba(255,255,255,0) 0px 0px 0px 18px; }
+}
+keyframes dotPulse {
+  0%   { box-shadow:white 0px 0px 0px 2px, rgba(255,255,255,1) 0px 0px 0px 3px; }
+  100% { box-shadow:white 0px 0px 0px 2px, rgba(255,255,255,0) 0px 0px 0px 18px; }
+}
+
+.video-icon{
+	color: #FFF;
+	float: right;
+	text-indent:-7px;
+}
