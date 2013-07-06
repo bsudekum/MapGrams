@@ -3,262 +3,105 @@
     
     <head>
         <title>MapGrams</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta charset="utf-8" />
-        <meta name="description" content="Find out what is happening around you with MapGrams. A map plus Instagram equals MapGrams."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="leaflet4/dist/leaflet.css" />
-        <link rel="stylesheet" href="app/custom.css" />
-        <link rel="stylesheet" href="app/Control.BingGeocoder.css" />
-        <link rel="stylesheet" href="app/reveal.css">
-        <!--[if lte IE 8]><link rel="stylesheet" href="leaflet4/dist/leaflet.ie.css" /><![endif]-->
-        <script src="leaflet4/dist/leaflet.js"></script>
-        <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.1.2"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <script src="app/app.js"></script>
-        <script type="text/javascript" src="app/jquery.reveal.js"></script>
-        <script src="app/leaflet-hash.js"></script>
-        <script src="app/Control.BingGeocoder.js"></script>
-        <script type="text/javascript" src="app/underscore-min.js"></script>
-        <script src="http://timeago.yarp.com/jquery.timeago.js"></script>
-      
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta charset='utf-8' />
+        <meta name='description' content='Find out what is happening around you with MapGrams. A map plus Instagram equals MapGrams.'/>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <link rel='stylesheet' href='css/site.css'>
+        <link rel='stylesheet' href='css/mobile.flatui.css'>
+        <link rel='stylesheet' href='js/marker-cluster/MarkerCluster.Default.css'>
+        <link href='http://api.tiles.mapbox.com/mapbox.js/v1.2.0/mapbox.css' rel='stylesheet' />
+        <!--[if lte IE 8]><link href='//api.tiles.mapbox.com/mapbox.js/v1.2.0/mapbox.ie.css' rel='stylesheet' ><![endif]-->
+
     </head> 
-    
     <body>
-        <div id="fb-root"></div>
-        <script>
-(function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-        </script>
-        <div id="map"></div>
-        <div id="social">
-            <div class="fb-like" data-href="http://www.mapgrams.com/" data-send="false"
-            data-layout="button_count" data-width="450" data-show-faces="true"></div>
-            <a href="https://twitter.com/share" class="twitter-share-button"
-            data-text="Check out Mapgrams- recent @Instagram photos near you." data-via="bobws">Tweet</a>
-            <script>
-! function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (!d.getElementById(id)) {
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//platform.twitter.com/widgets.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }
-}(document, "script", "twitter-wjs");
-            </script>
-            <a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.mapgrams.com%2F&media=http%3A%2F%2Fwww.mapgrams.com%2Fapp%2Fmapgrams	.png&description=Check%20out%20Mapgrams-%20recent%20%40Instagram%20photos%20near%20you."
-            class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
-        </div>
-        <div class="geolocation">
-                <a href="#" onclick="geoLocate(); return false;" title="Find me"><img src="location.png"/></a>
-            </div>
-        <div id="header">
-            <h2>MapGrams</h2>
-            <div class="geolocation">
-                <a href="#" onclick="geoLocate(); return false;" title="Find my Location">Locate Me <img src="location.png"/ height="12px" width="12px"></a>
-            </div>
-            <a href="#" class="big-link" data-reveal-id="myModal" data-animation="fade">More Information</a>
-        </div>
-        <div id="myModal" class="reveal-modal">
-            <div id="img1">
-                <img src="app/mapgrams.png" height="111px" width="305px" title="Mapgrams. Instagram photos mapped on a map"
-                alt="map photo Instagram world">
-            </div>
-            <h2>= MapGrams</h2>
-            <p>We love your feedback. Say
-                <a href="mailto:hello@mapgrams.com">hello@mapgrams.com</a>or fork it on
-                <a href="https://github.com/rsudekum/MapGrams">Github</a>
-            </p>
-             <h6>What's up with the funny looking URL? The URL updates as you pan around the world (zoom, latitude, longitude). This makes it easy to share with a friend what is happening in <a href="http://www.mapgrams.com/#14/35.6710/139.7879">Tokyo</a> or my home town- <a href="http://www.mapgrams.com/#14/42.1071/-87.7378">Winnetka</a></h6>
-            <h6>The background map was created by thousands of volunteer contributors
-                to the OpenStreetMap project - The free wiki world map. OpenStreetMap is
-                not-for-profit, with a mission to map the whole world and release the data
-                for free with an open license (
-                <a href="http://creativecommons.org/licenses/by-sa/2.0/"
-                title="Creative Commons Attribution Sharealike 2.0">CC-BY-SA</a>)
-                <a href="http://www.openstreetmap.org/">OpenStreetMap.org</a>. Map tiles by
-                <a href="http://www.maps.stamen.com">Stamen</a> and presented using
-                <a href="http://www.leaflet.cloudmade.com">Leaflet</a>
-            </h6>
-           
-            <h6 style="margin:10px">Created by
-                <a href="http://visuallybs.com">Bobby Sudekum</a>
-            </h6>
-        </div>
-        <!--<div class="show_hide">Explore other places!</div> -->
-        <script id="popupTemplate" type="text/template">
-		<div id="info">
-	
-			<p id="instagram-username"> 
-				<% if(photo.user.username) { %>
-					<%=	photo.user.username%>
-				<% } %>
-			</p>
-            <p id="instagram-username"> 
-                <% if(photo.location.name) { %>
-                    <%= photo.location.name%>
-                <% } %>
-            </p>
-
-			<p id="timeago"> 
-				<% if(photo.caption) { %>
-					<%=	photo.caption.created_time%>
-				<% } %>
-			</p>
-
-
-			<p id="instagram-likes"> 
-				<% if(photo.caption) { %>
-					<%=	photo.likes.count%>
-				<% } %>
-				<span style="font-size:12px">&hearts;</span>&nbsp;
-			</p>
-
-		</div>
-
-		<div id="twitter">
-			<iframe allowtransparency="true" frameborder="0" scrolling="no"
-		        src="https://platform.twitter.com/widgets/tweet_button.html?text=Check out what's happening!&url=<%= photo.link %>&via=bobws&count=none"
-		        style="width:130px; height:20px;"></iframe>
-		</div>
-
-		<div id="instagram-profile">
-			<img src=<%= photo.user.profile_picture %>>
-		</div>
-
-
-		<div id="instagram-photo">
-			<a target='_blank' href=<%= photo.link %>>
-
-				<img src=<%= photo.images.thumbnail.url %> />
-                
-            </a>
-		</div>
-
-		<p id="instagram-caption">
-			<% if(photo.caption) { %>
-				<%=	photo.caption.text  %>
-			<% } %> 
-		</p>
-        <script id="PopupTemplate" type="text/template">
-        <div id="info">
-    
-            <p id="instagram-username"> 
-                <% if(photo.user.username) { %>
-                    <%= photo.user.username%>
-                <% } %>
-            </p>
-            <p id="instagram-username"> 
-                <% if(photo.location.name) { %>
-                    <%= photo.location.name%>
-                <% } %>
-            </p>
-
-            <p id="timeago"> 
-                <% if(photo.caption) { %>
-                    <%= photo.caption.created_time%>
-                <% } %>
-            </p>
-
-
-            <p id="instagram-likes"> 
-                <% if(photo.caption) { %>
-                    <%= photo.likes.count%>
-                <% } %>
-                <span style="font-size:12px">&hearts;</span>&nbsp;
-            </p>
-
-        </div>
-
-        <div id="twitter">
-            <iframe allowtransparency="true" frameborder="0" scrolling="no"
-                src="https://platform.twitter.com/widgets/tweet_button.html?text=Check out what's happening!&url=<%= photo.link %>&via=bobws&count=none"
-                style="width:130px; height:20px;"></iframe>
-        </div>
-
-        <div id="instagram-profile">
-            <img src=<%= photo.user.profile_picture %>>
-        </div>
-
-
-        <div id="instagram-photo">
-            <a target='_blank' href=<%= photo.link %>>
-
-                <img src=<%= photo.images.thumbnail.url %> />
-                
-            </a>
-        </div>
-
-        <p id="instagram-caption">
-            <% if(photo.caption) { %>
-                <%= photo.caption.text  %>
-            <% } %> 
-        </p>
-
-	</script>
-	<script type="text/javascript">
-    var layer = new L.StamenTileLayer("watercolor");
-        var label = new L.StamenTileLayer("toner-labels");
-        var map = new L.Map("map", {
-        center: new L.LatLng(37.77180027337861, - 122.44434356689453),
-        zoom: 13,
-        maxZoom: 16
-        });
+        <div data-role='page' class='type-interior'>
         
-        map.addLayer(layer);
-        map.addLayer(label);
-		L.marker([37.77098612371078, - 122.46288299560547])
-			.addTo(map)
-			.bindPopup("<h3>Click the map to see Instagram photos!</h3><img src='http://www.mapgrams.com/app/mapgrams.png' title=MapGrams- Instagram photos mapped! alt=MapGrams- Map + Instagram width= '150px; height= '50px'/>")
-			.openPopup();
+            <div data-role='header' data-theme='f'>
+                <h1>MapGrams</h1>
+            </div><!-- /header -->
+
+            <div data-role='panel' id='mypanel' data-display='push'>
+
+                <form>
+                    <div data-role="fieldcontain">
+                        <label for="video">Include Video</label>
+                        <select name="video" id="video" data-role="slider" data-track-theme="b" data-theme="b">
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </select>
+                    </div>
+                </form>
+
+                <form>
+                    <div data-role="fieldcontain">
+                        <label for="cluster">Clustering:</label>
+                        <select name="cluster" id="cluster" data-role="slider" data-track-theme="a" data-theme="a">
+                            <option value="true">On</option>
+                            <option value="false">Off</option>
+                        </select>
+                    </div>
+                </form>
+                
+                <form>
+                    <label for='slider-distance' class='ui-input-text ui-slider' id='slider-distance-label'>Set Distance (Kilometers)</label>
+                        <div class='ui-slider'>
+                            <input type='number' data-type='range' name='slider-distance' id='slider-distance' data-highlight='true' min='100' max='5000' value='500' class='ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-slider-input'>
+                    </div>
+                </form>
+                
+                <form>
+                    <label for='slider-likes' class='ui-input-text ui-slider' id='slider-likes-label'>Number of likes</label>
+                        <div class='ui-slider'>
+                            <input type='number' data-type='range' name='slider-likes' id='slider-likes' data-highlight='true' min='0' max='5000' value='5000' class='ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-slider-input'>
+                    </div>
+                </form>
+                
+                <form>
+                    <label for="date-1">Later than</label>
+                    <input type="date" data-clear-btn="true" name="date-1" id="date-1" value="">
+                </form>
+
+                <form>
+                    <label for="datetime-2">Before than</label>
+                    <input type="date" data-clear-btn="true" name="date-2" id="date-2" value="">
+                </form>
+
+                <form>
+                    <button data-theme='d' class='update'>Update</button>
+                </form>
+
+                <!-- <form>
+                    <label for="liar">No filter liar</label>
+                    <select name="liar" id="liar" data-role="slider" data-track-theme="b" data-theme="b">
+                        <option value="true">True</option>
+                        <option value="false">False</option>
+                    </select>
+                </form> -->
 
 
-		function geoLocate() {
-		    function onLocationFound(e) {
+            </div><!-- /panel -->
 
-		        L.marker(e.latlng).addTo(map).bindPopup("<h3>Holy cow, you're right here and you're awesome!</h3>").openPopup();
+            <div data-role='content'>
 
-		        L.circle(e.latlng).addTo(map);
-		    }
+                <div class='content-primary'>
+                    
+                    <div id='map'></div>
+                    <a href="#mypanel" data-role="button" data-theme="d" data-inline="true" class='open-panel'>Options</a>
+                </div><!--/content-primary -->      
+            
+            </div><!-- /content -->
 
-		    function onLocationError(e) {
-		        alert(e.message);
-		    }
+        </div><!-- page -->
 
-		    map.on('locationfound', onLocationFound);
-		    map.on('locationerror', onLocationError);
-
-		    map.locate({
-		        setView: true,
-		        maxZoom: 13,
-                detectRetina: true
-		    });
-
-		}
-		</script>
-		<script type="text/javascript">
-		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-33721946-1']);
-		_gaq.push(['_trackPageview']);
-
-		(function () {
-		    var ga = document.createElement('script');
-		    ga.type = 'text/javascript';
-		    ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		    var s = document.getElementsByTagName('script')[0];
-		    s.parentNode.insertBefore(ga, s);
-		})();
-		</script>
-		<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
-</body>
-
+    <script src='http://code.jquery.com/jquery-1.10.1.min.js'></script>
+    <script src='http://api.tiles.mapbox.com/mapbox.js/v1.2.0/mapbox.js'></script>
+    <script src='js/leaflet-hash.js'></script>
+    <script src='js/jquery.mobile.js'></script>
+    <script src='js/underscore.js'></script>
+    <script src='js/backbone.js'></script>
+    <script src='js/marker-cluster/leaflet.markercluster-src.js'></script>
+    <script src='js/timeago.js'></script>
+    <script src='js/app.js'></script>
+    </body>
 </html>
