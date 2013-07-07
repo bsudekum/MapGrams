@@ -105,3 +105,26 @@ keyframes dotPulse {
 	padding: 9px;
 	margin: 9px!important;
 }
+
+.locator a {
+	background-color: #FFF;
+	border: 1px solid #CCC;
+	width: 26px;
+	height: 26px;
+	line-height: 26px;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	color: #000;
+	-webkit-radius: 2px;
+	border-radius: 2px;
+}
+.locator a:hover{
+	background-color: #F4F4F4;
+}
+
+.locator img {
+	position: relative;
+	top: 2px;
+	right: 1px;
+}

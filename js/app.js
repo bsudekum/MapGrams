@@ -1,6 +1,5 @@
 $(function(){
 
-
 		// $('.open-panel').click()
 
 		var model = new Backbone.Model();
@@ -18,14 +17,28 @@ $(function(){
 				liar:false
 		});
 
-		var map = L.mapbox.map('map', 'bobbysud.map-uufxk4qo').setView([38.89094,-77.02316],18);
+		var map = L.mapbox.map('map', 'bobbysud.map-uufxk4qo').setView([37.7695,-122.4302],14);
 		var hash = new L.Hash(map);
+
+		var MyControl = L.Control.extend({
+		    options: {
+		        position: 'topleft'
+		    },
+
+		    onAdd: function (map) {
+		        var container = L.DomUtil.create('div', 'locator');
+		        return container;
+		    }
+		});
+		map.addControl(new MyControl());
+		$('.locator').append('<a href=""><img src="css/arrow1.png" width=11px height=11px /></a>')
 
 		var ListView = Backbone.View.extend({
 				el: $('body'),
 				events: {
       			'click #map': 'addItem',
-      			'click .update': 'updateParam'
+      			'click .update': 'updateParam',
+      			'click .locator': 'findLocation'
     		},
 		
 				initialize: function(){
@@ -35,6 +48,9 @@ $(function(){
 		
 				render: function(){
 						
+				},
+				findLocation: function(e){
+						e.preventDefault()
 						function onLocationFound(e) {
 								var myIcon = L.divIcon({className: 'my-div-icon'});	
 								L.marker(e.latlng,{icon:myIcon}).addTo(map)
@@ -46,9 +62,6 @@ $(function(){
 						map.on('locationfound', onLocationFound);
 						map.on('locationerror', onLocationError);
 						map.locate({setView: true, maxZoom: 16});
-				},
-				addItem: function(e){
-						// console.log(e)
 				},
 				updateParam: function(e){
 						e.preventDefault();
