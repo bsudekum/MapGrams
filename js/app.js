@@ -1,11 +1,11 @@
 $(function(){
 
+
 		// $('.open-panel').click()
 
 		var model = new Backbone.Model();
 
 		var time = new Date().getTime()/1000-604800;
-		$('#date-2').val(time)
 
 		model.set({
 				clustering: true,
@@ -18,9 +18,8 @@ $(function(){
 				liar:false
 		});
 
-		console.log(model.get('max_timestamp'))
-
-		var map = L.mapbox.map('map', 'bobbysud.map-uufxk4qo').addControl(L.mapbox.geocoderControl('bobbysud.map-uufxk4qo'));
+		var map = L.mapbox.map('map', 'bobbysud.map-uufxk4qo').setView([38.89094,-77.02316],18);
+		var hash = new L.Hash(map);
 
 		var ListView = Backbone.View.extend({
 				el: $('body'),
@@ -42,7 +41,6 @@ $(function(){
 						}
 
 						function onLocationError(e) {
-								alert(e.message);
 						}
 
 						map.on('locationfound', onLocationFound);
@@ -93,6 +91,12 @@ $(function(){
 
 				map.addLayer(circle);
 
+				var loadingIcon = L.divIcon({className: 'loading', html:"<img src='css/loading.gif' height='30px' width='30px'/>"});
+
+		    var loading = L.marker(maps.latlng,{
+		    	icon:loadingIcon
+		    }).addTo(map);
+
 				if(clusterOn = true){
 						var markers = new L.MarkerClusterGroup({
 							disableClusteringAtZoom:17,
@@ -121,7 +125,22 @@ $(function(){
 			      				
 			      				var lat = photos.data[num].location.latitude;
 			      				var lng = photos.data[num].location.longitude;
+			      				var link = photos.data[num].link;
+			      				var likes = photos.data[num].likes.count;
+			      				var name = photos.data[num].user.full_name;
+			      				var username = photos.data[num].user.username;
+			      				var profile = photos.data[num].user.profile_picture;
 			      				var imgUrl = photos.data[num].images.low_resolution.url;
+			      				var imgThumb = photos.data[num].images.thumbnail.url;
+			      				var filter = 'filter - ' + photos.data[num].filter;
+			      				var date = $.timeago(new Date(parseInt(photos.data[num].created_time) * 1000));
+			      				
+			      				if(photos.data[num].location.name){
+			      						var location = 'at ' + photos.data[num].location.name;
+			      				}else{
+			      						var location = '';
+			      				}
+
 			      				if(photos.data[num].videos){
 			      						var videoUrl = photos.data[num].videos.low_resolution.url;
 			      				}
@@ -133,33 +152,77 @@ $(function(){
 			      						var caption = '';
 			      				}
 
-
 			      				console.log(photos.data[num])
 			      				
 			      				var imageIcon = L.icon({
-			      				    iconUrl: imgUrl,
-			      				    iconRetinaUrl: imgUrl,
+			      				    iconUrl: imgThumb,
+			      				    iconRetinaUrl: imgThumb,
 			      				    iconSize: [40, 40],
 			      				    iconAnchor: [20, 20],
 			      				});
-
-			      				var videoIcon = L.divIcon({className: 'video-icon', html:'Video'});
 
 			      		    var marker = L.marker(new L.LatLng(lat,lng),{
 			      		    	icon:imageIcon
 			      		    });
 
+			      		    var videoIcon = L.divIcon({className: 'video-icon', html:'Video'});
+
 			      		    var markerVideo = L.marker(new L.LatLng(lat,lng),{
 			      		    	icon:videoIcon
 			      		    });
 
-			      		    markerVideo.bindPopup('<video width="320" height="320" controls autoplay loop><source src="' + videoUrl + '" type="video/mp4">Your browser does not support the video tag.</video><p>'+caption+'</p>',{
-			      		    	maxWidth:400
-			      		    })
+			      		    markerVideo.bindPopup(""+
+			      		    	'<div class="top-text">'+
+			      		    		
+			      		    		'<a href="http://instagram.com/' + username + '" target=_blank>'+
+			      		    			'<img src="' + profile + '" height="40px" width="40px" class="profile"/>'+
+			      		    			// '<p>' + name + '</p>' +
+			      		    			'<p>' + username + '</p>' +
+			      		    		'</a>' +
 
-			      		    marker.bindPopup("<img src='"+imgUrl+"' height='320px' width='320px'/><p>"+caption+"</p>",{
-			      		    	maxWidth:400
-			      		    })
+				      		    	'<div class="pull-right">' +
+				      		    		'<p>' + date + '</p>' +
+				      		    		'<p>' + location + '</p>' +
+				      		    		'<p>' + filter + '</p>' +
+				      		    	'</div>'+
+			      		    	'</div>' +
+
+			      		    	'<a href="' + link + '" target=_blank>'+
+			      		    		'<video width="280" height="280" controls autoplay loop><source src="' + videoUrl + '" type="video/mp4">Your browser does not support the video tag.</video>'+
+			      		    	'</a>'+
+
+			      		    	'<div class="bottom-text">' +
+			      		    		'<p>' + likes + ' <span id="heart">♡</span></p>' +
+			      		    		'<h3>'+caption+'</h3>' +
+			      		    	'</div>',{
+			      		    	maxWidth:280
+			      		    });
+
+			      		    marker.bindPopup(""+
+			      		    	'<div class="top-text">'+
+			      		    		
+			      		    		'<a href="http://instagram.com/' + username + '" target=_blank>'+
+			      		    			'<img src="' + profile + '" height="40px" width="40px" class="profile"/>'+
+			      		    			// '<p>' + name + '</p>' +
+			      		    			'<p>' + username + '</p>' +
+			      		    		'</a>' +
+
+				      		    	'<div class="pull-right">' +
+				      		    		'<p>' + date + '</p>' +
+				      		    		'<p>' + location + '</p>' +
+				      		    		'<p>' + filter + '</p>' +
+				      		    	'</div>'+
+			      		    	'</div>' +
+
+			      		    	'<a href="' + link + '" target=_blank>'+
+			      		    		'<img src="' + imgUrl + '" height="280px" width="280px"/>'+
+			      		    	'</a>'+
+			      		    	'<div class="bottom-text">' +
+			      		    		'<p>' + likes + ' <span id="heart">♡</span></p>' +
+			      		    		'<h3>'+caption+'</h3>' +
+			      		    	'</div>',{
+			      		    	maxWidth:280
+			      		    });
 
 		    		        markers.addLayer(marker);
 		    		        if(photos.data[num].videos){
@@ -172,11 +235,15 @@ $(function(){
 					      				map.fitBounds(markers.getBounds().pad(0.3));	
 					      		}
 
+
+					      		$('.loading').remove();
+
 					      });
 			      }
 		    });
 		}
 		map.on('click',getPhotos)
+
 
 });
 

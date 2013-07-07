@@ -2,6 +2,9 @@ body {
 	overflow: hidden;
 	height: 100%;
 }
+a {
+	text-decoration: none;
+}
 #map{
 	position: absolute;
 	top: 42px;
@@ -36,7 +39,7 @@ form {
 }
 
 .leaflet-marker-icon {
-	border-radius: 4px;
+	border-radius: 1px;
 }
 
 .my-div-icon {
@@ -64,4 +67,41 @@ keyframes dotPulse {
 	color: #FFF;
 	float: right;
 	text-indent:-7px;
+}
+
+.profile {
+	float: left;
+	/*border-radius: 60px;*/
+	margin: 0 5px 0 0;
+}
+
+#heart {
+	color: #EBA994;
+}
+
+.leaflet-popup-content .top-text p {
+	margin: 0;
+	padding: 0;
+}
+
+.leaflet-popup-content .top-text a{
+	float: left;
+}
+
+.bottom-text p,
+.bottom-text h3{
+	margin: 5px 0!important;
+}
+
+.leaflet-popup-content .top-text a p{
+	margin: 0 0 5px 0;
+}
+.leaflet-popup-content .top-text .pull-right {
+	text-align: right;
+}
+
+.leaflet-popup-content {
+	background: #F3F3F3;
+	padding: 9px;
+	margin: 9px!important;
 }

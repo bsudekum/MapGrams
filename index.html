@@ -12,33 +12,32 @@
         <link rel='stylesheet' href='js/marker-cluster/MarkerCluster.Default.css'>
         <link href='http://api.tiles.mapbox.com/mapbox.js/v1.2.0/mapbox.css' rel='stylesheet' />
         <!--[if lte IE 8]><link href='//api.tiles.mapbox.com/mapbox.js/v1.2.0/mapbox.ie.css' rel='stylesheet' ><![endif]-->
-
     </head> 
     <body>
         <div data-role='page' class='type-interior'>
         
-            <div data-role='header' data-theme='f'>
+            <div data-role='header' data-theme='c'>
                 <h1>MapGrams</h1>
             </div><!-- /header -->
 
             <div data-role='panel' id='mypanel' data-display='push'>
 
                 <form>
-                    <div data-role="fieldcontain">
-                        <label for="video">Include Video</label>
-                        <select name="video" id="video" data-role="slider" data-track-theme="b" data-theme="b">
-                            <option value="true">True</option>
-                            <option value="false">False</option>
+                    <div data-role='fieldcontain'>
+                        <label for='video'>Include Video</label>
+                        <select name='video' id='video' data-role='slider' data-track-theme='c' data-theme='c'>
+                            <option value='true'>True</option>
+                            <option value='false'>False</option>
                         </select>
                     </div>
                 </form>
 
                 <form>
-                    <div data-role="fieldcontain">
-                        <label for="cluster">Clustering:</label>
-                        <select name="cluster" id="cluster" data-role="slider" data-track-theme="a" data-theme="a">
-                            <option value="true">On</option>
-                            <option value="false">Off</option>
+                    <div data-role='fieldcontain'>
+                        <label for='cluster'>Clustering:</label>
+                        <select name='cluster' id='cluster' data-role='slider' data-track-theme='c' data-theme='c'>
+                            <option value='true'>On</option>
+                            <option value='false'>Off</option>
                         </select>
                     </div>
                 </form>
@@ -58,24 +57,24 @@
                 </form>
                 
                 <form>
-                    <label for="date-1">Later than</label>
-                    <input type="date" data-clear-btn="true" name="date-1" id="date-1" value="">
+                    <label for='date-1'>Later than</label>
+                    <input type='date' data-clear-btn='true' name='date-1' id='date-1' value=''>
                 </form>
 
                 <form>
-                    <label for="datetime-2">Before than</label>
-                    <input type="date" data-clear-btn="true" name="date-2" id="date-2" value="">
+                    <label for='datetime-2'>Before than</label>
+                    <input type='date' data-clear-btn='true' name='date-2' id='date-2' value=''>
                 </form>
 
                 <form>
-                    <button data-theme='d' class='update'>Update</button>
+                    <button data-theme='c' class='update'>Update</button>
                 </form>
 
                 <!-- <form>
-                    <label for="liar">No filter liar</label>
-                    <select name="liar" id="liar" data-role="slider" data-track-theme="b" data-theme="b">
-                        <option value="true">True</option>
-                        <option value="false">False</option>
+                    <label for='liar'>No filter liar</label>
+                    <select name='liar' id='liar' data-role='slider' data-track-theme='b' data-theme='c'>
+                        <option value='true'>True</option>
+                        <option value='false'>False</option>
                     </select>
                 </form> -->
 
@@ -87,7 +86,7 @@
                 <div class='content-primary'>
                     
                     <div id='map'></div>
-                    <a href="#mypanel" data-role="button" data-theme="d" data-inline="true" class='open-panel'>Options</a>
+                    <a href='#mypanel' data-role='button' data-theme='c' data-inline='true' class='open-panel'>Options</a>
                 </div><!--/content-primary -->      
             
             </div><!-- /content -->
@@ -96,6 +95,12 @@
 
     <script src='http://code.jquery.com/jquery-1.10.1.min.js'></script>
     <script src='http://api.tiles.mapbox.com/mapbox.js/v1.2.0/mapbox.js'></script>
+    <script>
+        $(document).bind('mobileinit', function () {
+          $.mobile.hashListeningEnabled = false;
+          $.mobile.linkBindingEnabled = false;
+        });
+    </script>
     <script src='js/leaflet-hash.js'></script>
     <script src='js/jquery.mobile.js'></script>
     <script src='js/underscore.js'></script>
