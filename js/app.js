@@ -4,9 +4,12 @@ $(function(){
 
 		var model = new Backbone.Model();
 
-		var time = new Date().getTime()/1000-604800;
+		var time = new Date().getTime()/1000-604800;//Max time back is 1 week. 604800 is 1 week.
+		console.log(time)
 
 		model.set({
+				photo:true,
+				video:true,
 				clustering: true,
 				radius: 500,
 				video: true,
@@ -37,7 +40,7 @@ $(function(){
 				el: $('body'),
 				events: {
       			'click #map': 'addItem',
-      			'click .update': 'updateParam',
+      			'click .ui-panel-animate': 'updateParam',
       			'click .locator': 'findLocation'
     		},
 		
@@ -57,6 +60,7 @@ $(function(){
 						}
 
 						function onLocationError(e) {
+							alert(e.message)
 						}
 
 						map.on('locationfound', onLocationFound);
@@ -69,13 +73,22 @@ $(function(){
 						var likes = $('#slider-likes').val();
 						var video = $('#video').val();
 						var cluster = $('#cluster').val();
-						console.log(cluster)
+						var photo = $('#photo').val();
+						var dayMin = $('#range-10b').val();
+						var dayMax = $('#range-10a').val();
+						console.log(dayMax)
+						
+						var secDay = 86400;
+						var newMin = new Date().getTime()/1000 - (secDay * dayMin)
+						var newMax = new Date().getTime()/1000 - (secDay * dayMax)
 
 						model.set({
 								video:video,
+								photo:photo,
 								clustering:cluster,
 								radius:radius,
 								likes: likes,
+								max_timestamp: newMax
 						});
 				}
 		});
@@ -88,11 +101,14 @@ $(function(){
 				var llat = maps.latlng.lat;
 				var llng = maps.latlng.lng;
 				var radius = model.get('radius');
+				var video = model.get('video');
+				var includePhoto = model.get('photo');
 				var min_timestamp = model.get('min_timestamp');
 				var max_timestamp = model.get('max_timestamp');
 				var clusterOn = model.get('clustering');
-				var liar = model.get('liar');
 				$('.leaflet-overlay-pane svg g').remove();
+
+				console.log(max_timestamp)
 				
 				var circle = new L.Circle(maps.latlng, radius, {
 						color: '#919191',
@@ -104,30 +120,23 @@ $(function(){
 
 				map.addLayer(circle);
 
-				var loadingIcon = L.divIcon({className: 'loading', html:"<img src='css/loading.gif' height='30px' width='30px'/>"});
+				var loadingIcon = L.divIcon({className: 'loading', html:"<h1>Loading</h1>", clickable:false});
 
 		    var loading = L.marker(maps.latlng,{
 		    	icon:loadingIcon
 		    }).addTo(map);
 
-				if(clusterOn = true){
-						var markers = new L.MarkerClusterGroup({
-							disableClusteringAtZoom:17,
-							animateAddingMarkers: true
-						});
-				}else{
-						var markers = new L.MarkerClusterGroup({
-							disableClusteringAtZoom:1,
-						});
-				}
-				
-				if(liar == true){
-						var url = 'https://api.instagram.com/v1/tags/nofilter/media/recent?access_token=11377329.f59def8.c525cc868be84315ba04c4f10e4c74b1&count=1000'
-				}else{
-						var url = 'https://api.instagram.com/v1/media/search?lat=' + llat + '&lng=' + llng + '&distance=' + radius + '&min_timestamp=' + min_timestamp + '&max_timestamp=' + max_timestamp + '&client_id=5d1ba596dc034a7a8895e309f5f2452f&count=100';	
-				}
-				
+				var markers = new L.MarkerClusterGroup({
+						disableClusteringAtZoom:17,
+						animateAddingMarkers: true
+				});
 
+				if(!clusterOn){
+						markers.options.disableClusteringAtZoom = 1;
+				}
+				
+				var url = 'https://api.instagram.com/v1/media/search?lat=' + llat + '&lng=' + llng + '&distance=' + radius + '&min_timestamp=' + min_timestamp + '&max_timestamp=' + max_timestamp + '&client_id=5d1ba596dc034a7a8895e309f5f2452f&count=100';	
+				
 				return $.ajax({
 		      	type: "GET",
 			      dataType: "jsonp",
@@ -160,12 +169,11 @@ $(function(){
 
 			      				if(photos.data[num].caption){
 			      						var caption = photos.data[num].caption.text
-			      						console.log(caption)
 			      				}else{
 			      						var caption = '';
 			      				}
 
-			      				console.log(photos.data[num])
+			      				// console.log(photos.data[num])
 			      				
 			      				var imageIcon = L.icon({
 			      				    iconUrl: imgThumb,
@@ -178,7 +186,11 @@ $(function(){
 			      		    	icon:imageIcon
 			      		    });
 
-			      		    var videoIcon = L.divIcon({className: 'video-icon', html:'Video'});
+			      		    var videoIcon = L.divIcon({
+			      		    	className: 'video-icon',
+			      		    	html:'Video',
+			      		    	iconAnchor: [20,20]
+			      		    });
 
 			      		    var markerVideo = L.marker(new L.LatLng(lat,lng),{
 			      		    	icon:videoIcon
@@ -208,7 +220,8 @@ $(function(){
 			      		    		'<p>' + likes + ' <span id="heart">♡</span></p>' +
 			      		    		'<h3>'+caption+'</h3>' +
 			      		    	'</div>',{
-			      		    	maxWidth:280
+			      		    	maxWidth:280,
+			      		    	autoPan:false
 			      		    });
 
 			      		    marker.bindPopup(""+
@@ -234,20 +247,30 @@ $(function(){
 			      		    		'<p>' + likes + ' <span id="heart">♡</span></p>' +
 			      		    		'<h3>'+caption+'</h3>' +
 			      		    	'</div>',{
-			      		    	maxWidth:280
+			      		    	maxWidth:280,
+			      		    	autoPan: false
 			      		    });
+										console.log(includePhoto)
+										if(includePhoto){
+												markers.addLayer(marker);	
+										}
 
-		    		        markers.addLayer(marker);
 		    		        if(photos.data[num].videos){
 		    		        		markers.addLayer(markerVideo);
 		    		        }
 		    		        
 					      		map.addLayer(markers);
-					      		
-					      		if(liar == true){
-					      				map.fitBounds(markers.getBounds().pad(0.3));	
-					      		}
 
+					      		marker.on('mouseover', function(e) {
+					      				marker.openPopup();
+					      		});
+					      		markerVideo.on('mouseover', function(e) {
+					      				markerVideo.openPopup();
+					      		});
+
+			      		    // markers.options.iconCreateFunction: function(cluster) {
+			      		    //     return new L.DivIcon({ html: '<b>' + cluster.getChildCount() + '</b>' });
+			      		    // }
 
 					      		$('.loading').remove();
 

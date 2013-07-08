@@ -26,18 +26,28 @@
                     <div data-role='fieldcontain'>
                         <label for='video'>Include Video</label>
                         <select name='video' id='video' data-role='slider' data-track-theme='c' data-theme='c'>
-                            <option value='true'>True</option>
-                            <option value='false'>False</option>
+                            <option value='true'>On</option>
+                            <option value=''>Off</option>
                         </select>
                     </div>
                 </form>
 
                 <form>
                     <div data-role='fieldcontain'>
-                        <label for='cluster'>Clustering:</label>
+                        <label for='photo'>Include Photo</label>
+                        <select name='photo' id='photo' data-role='slider' data-track-theme='c' data-theme='c'>
+                            <option value='true'>On</option>
+                            <option value=''>Off</option>
+                        </select>
+                    </div>
+                </form>
+
+                <form>
+                    <div data-role='fieldcontain'>
+                        <label for='cluster'>Clustering</label>
                         <select name='cluster' id='cluster' data-role='slider' data-track-theme='c' data-theme='c'>
                             <option value='true'>On</option>
-                            <option value='false'>Off</option>
+                            <option value=''>Off</option>
                         </select>
                     </div>
                 </form>
@@ -49,27 +59,24 @@
                     </div>
                 </form>
                 
-                <form>
+                <!-- <form>
                     <label for='slider-likes' class='ui-input-text ui-slider' id='slider-likes-label'>Number of likes</label>
                         <div class='ui-slider'>
                             <input type='number' data-type='range' name='slider-likes' id='slider-likes' data-highlight='true' min='0' max='5000' value='5000' class='ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-slider-input'>
                     </div>
-                </form>
+                </form> -->
                 
                 <form>
-                    <label for='date-1'>Later than</label>
-                    <input type='date' data-clear-btn='true' name='date-1' id='date-1' value=''>
+                    <div data-role="rangeslider">
+                        <label for="range-10a">Time Period</label>
+                        <input type="range" name="range-10b" id="range-10b" min="0" max="7" step="1" value="0">
+                        <input type="range" name="range-10a" id="range-10a" min="0" max="7" step="1" value="7">
+                    </div>
+                    <ul>
+                        <li><small>Newest photo/video within last 7 days</small></li>
+                        <li><small>Maximum is 7 days back</small></li>
+                    </ul>
                 </form>
-
-                <form>
-                    <label for='datetime-2'>Before than</label>
-                    <input type='date' data-clear-btn='true' name='date-2' id='date-2' value=''>
-                </form>
-
-                <form>
-                    <button data-theme='c' class='update'>Update</button>
-                </form>
-
                 <!-- <form>
                     <label for='liar'>No filter liar</label>
                     <select name='liar' id='liar' data-role='slider' data-track-theme='b' data-theme='c'>

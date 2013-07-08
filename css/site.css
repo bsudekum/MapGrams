@@ -5,6 +5,9 @@ body {
 a {
 	text-decoration: none;
 }
+.ui-header .ui-title {
+	font-weight: 100;
+}
 #map{
 	position: absolute;
 	top: 42px;
@@ -28,12 +31,15 @@ form {
 	margin: 30px 0;
 }
 
-.open-panel{
+.open-panel {
 	position: relative;
 	top: -13px;
 	left: 30px;
+	
 }
-
+.open-panel .ui-btn-text {
+	font-weight: 100;
+}
 #mypanel{
 	overflow: scroll;
 }
@@ -66,7 +72,10 @@ keyframes dotPulse {
 .video-icon{
 	color: #FFF;
 	float: right;
-	text-indent:-7px;
+	text-indent: -8px;
+	background-color: rgba(133, 133, 133, 0.37);
+	padding: 14px;
+	line-height: 13px;
 }
 
 .profile {
@@ -95,9 +104,11 @@ keyframes dotPulse {
 
 .leaflet-popup-content .top-text a p{
 	margin: 0 0 5px 0;
+	width: 81px;
 }
 .leaflet-popup-content .top-text .pull-right {
 	text-align: right;
+	width: 192px;
 }
 
 .leaflet-popup-content {
@@ -127,4 +138,15 @@ keyframes dotPulse {
 	position: relative;
 	top: 2px;
 	right: 1px;
+}
+
+.loading h1{
+	position: relative;
+	right: 37px;
+	bottom: 37px;
+	opacity: .8;
+}
+
+.ui-field-contain label.ui-slider {
+	width: 35%!important;
 }
