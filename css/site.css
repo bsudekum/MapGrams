@@ -101,6 +101,12 @@ keyframes dotPulse {
 .bottom-text h3{
 	margin: 5px 0!important;
 }
+.bottom-text p {
+	float: right;
+	padding: 0 0 1px 1px;
+	position: relative;
+	bottom:3px;
+}
 
 .leaflet-popup-content .top-text a p{
 	margin: 0 0 5px 0;

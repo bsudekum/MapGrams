@@ -20,8 +20,9 @@ $(function(){
 				liar:false
 		});
 
-		var map = L.mapbox.map('map', 'bobbysud.map-uufxk4qo').setView([37.7695,-122.4302],14);
+		var map = L.mapbox.map('map', 'bobbysud.map-uufxk4qo').setView([37.7746,-122.4373],15);
 		var hash = new L.Hash(map);
+		map.attributionControl.addAttribution('Bobby Sudekum');
 
 		var MyControl = L.Control.extend({
 		    options: {
@@ -170,7 +171,7 @@ $(function(){
 			      				if(photos.data[num].caption){
 			      						var caption = photos.data[num].caption.text
 			      				}else{
-			      						var caption = '';
+			      						var caption = '-';
 			      				}
 
 			      				// console.log(photos.data[num])
@@ -250,7 +251,7 @@ $(function(){
 			      		    	maxWidth:280,
 			      		    	autoPan: false
 			      		    });
-										console.log(includePhoto)
+										
 										if(includePhoto){
 												markers.addLayer(marker);	
 										}
