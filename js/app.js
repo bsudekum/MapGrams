@@ -129,6 +129,7 @@ $(function(){
 
 				var markers = new L.MarkerClusterGroup({
 						disableClusteringAtZoom:17,
+						maxClusterRadius:50,
 						animateAddingMarkers: true
 				});
 
@@ -214,7 +215,7 @@ $(function(){
 			      		    	'</div>' +
 
 			      		    	'<a href="' + link + '" target=_blank>'+
-			      		    		'<video width="280" height="280" controls autoplay loop><source src="' + videoUrl + '" type="video/mp4">Your browser does not support the video tag.</video>'+
+			      		    		'<video width="280" height="280" autoplay loop><source src="' + videoUrl + '" type="video/mp4">Your browser does not support the video tag.</video>'+
 			      		    	'</a>'+
 
 			      		    	'<div class="bottom-text">' +
@@ -259,6 +260,21 @@ $(function(){
 		    		        if(photos.data[num].videos){
 		    		        		markers.addLayer(markerVideo);
 		    		        }
+
+		    		        markers.options.iconCreateFunction = function(cluster){
+		    		        	console.log(cluster.getAllChildMarkers())
+		    		        	for(i=1;i<cluster.getChildCount();i++){
+		    		        			if (i==10) break;
+		    		        			var cl ='<img src="' + cluster.getAllChildMarkers()[i].options.icon.options.iconUrl + '"/>';
+		    		        			var cls = cl + cls
+		    		        	}
+
+		    		        	return new L.DivIcon({
+		    		        			html: cls ,
+		    		        			className: 'cluster-image',
+		    		        			iconAnchor:[40,20]
+		    		        		});
+		    		        }
 		    		        
 					      		map.addLayer(markers);
 
@@ -268,10 +284,6 @@ $(function(){
 					      		markerVideo.on('mouseover', function(e) {
 					      				markerVideo.openPopup();
 					      		});
-
-			      		    // markers.options.iconCreateFunction: function(cluster) {
-			      		    //     return new L.DivIcon({ html: '<b>' + cluster.getChildCount() + '</b>' });
-			      		    // }
 
 					      		$('.loading').remove();
 

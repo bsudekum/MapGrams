@@ -156,3 +156,20 @@ keyframes dotPulse {
 .ui-field-contain label.ui-slider {
 	width: 35%!important;
 }
+
+.cluster-image {
+	height: 75px!important;
+	width: 75px!important;
+	font-size: 0;
+}
+
+.cluster-image img {
+	width: 25px;
+	height: 25px;
+	float: left;
+	opacity: .3;
+}
+
+.cluster-image img:hover{
+	opacity: 1;
+}
