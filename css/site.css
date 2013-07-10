@@ -37,7 +37,8 @@ form {
 	left: 30px;
 	
 }
-.open-panel .ui-btn-text {
+.open-panel .ui-btn-text,
+.ui-btn-text {
 	font-weight: 100;
 }
 #mypanel{
@@ -100,12 +101,6 @@ keyframes dotPulse {
 .bottom-text p,
 .bottom-text h3{
 	margin: 5px 0!important;
-}
-.bottom-text p {
-	float: right;
-	padding: 0 0 1px 1px;
-	position: relative;
-	bottom:3px;
 }
 
 .leaflet-popup-content .top-text a p{
