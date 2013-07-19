@@ -17,11 +17,17 @@ $(function(){
 			max_timestamp:time,
 			liar:false,
 			userId: null,
-			whos: 'user'
+			whos: 'user',
+			token: '',
+			username: ''
 		});
 
-		var map = L.mapbox.map('map', 'bobbysud.map-uufxk4qo').setView([37.7746,-122.4373],16);
-		// var hash = new L.Hash(map);
+		var map = L.mapbox.map('map', 'bobbysud.map-uufxk4qo',{
+			fadeAnimation:false
+		}).setView([37.7746,-122.4373],16);
+
+		var hash = new L.Hash(map);
+		
 		map.attributionControl.addAttribution('Bobby Sudekum');
 
 		var MyControl = L.Control.extend({
@@ -50,6 +56,7 @@ $(function(){
       			'change form': 'updateParam',
       			'click .locator': 'findLocation',
       			'click .sign-in': 'signIn',
+      			'submit #user-form': 'getUserName'
     		},
 		
 				initialize: function(){
@@ -62,19 +69,32 @@ $(function(){
 				},
 		
 				render: function(){
-					var aToken = location.hash.substr(1);
-					var whos = model.get('whos');
-					
-					$.ajax({
-				      	type: "GET",
-						dataType: "jsonp",
-						cache: true,
-						url: 'https://api.instagram.com/v1/users/search?q=bsudekum&' + aToken,
-						success: function (user) {
-							$('.sign-in .ui-btn-text').html(user.data[0].full_name + "<img src='" + user.data[0].profile_picture + "' height=20px width=20px />");
-						}
-					});
+					if(location.hash.length > 35) {
+						var aToken = location.hash.substr(1);
+						
+						model.set({
+							token: aToken
+						});
+
+						$.ajax({
+					      	type: 'GET',
+							dataType: 'jsonp',
+							cache: true,
+							url: 'https://api.instagram.com/v1/users/self/feed?' + aToken,
+							success: function (photos) {
+								runPhotos(photos)
+							}
+						});
+						console.log('logged in')
+					}else{
+						console.log('not logged in')
+					}
 				},
+
+				getUserName: function(e) {
+					e.preventDefault()
+				},
+
 				getUserPhoto: function(e){
 					if($('#radio-choice-v-2b').is(':checked')){
 							var user = 'user'
@@ -89,8 +109,8 @@ $(function(){
 				findLocation: function(e){
 						e.preventDefault()
 						function onLocationFound(e) {
-								var myIcon = L.divIcon({className: 'my-div-icon'});	
-								L.marker(e.latlng,{icon:myIcon}).addTo(map)
+							var myIcon = L.divIcon({className: 'my-div-icon'});	
+							L.marker(e.latlng,{icon:myIcon}).addTo(map)
 						}
 
 						function onLocationError(e) {
@@ -110,12 +130,17 @@ $(function(){
 						var photo = $('#photo').val();
 						var dayMin = $('#range-10b').val();
 						var dayMax = $('#range-10a').val();
+						var u = $('#username').val();
+						model.set({
+							username: u
+						});
 						if($('#radio-choice-v-2a').is(':checked')){
 							var user = 'user'
 						}else{
 							var user = 'friend'
 						}
 						console.log(photo)
+						console.log(model.get('token'))
 						
 						var secDay = 86400;
 						var newMin = new Date().getTime()/1000 - (secDay * dayMin)
@@ -130,43 +155,64 @@ $(function(){
 							max_timestamp: newMax,
 							whos: user
 						});
-						if(location.hash){
-							var aToken = location.hash.substr(1);
-							var whos = model.get('whos');
+
+						var aToken = model.get('token')
+						var userName = model.get('username');
+						console.log(userName)
+
+						if(userName && aToken.length>2){
+							var url = 'https://api.instagram.com/v1/users/search?q=' + userName + '&' + aToken
 							$.ajax({
-						      	type: "GET",
-								dataType: "jsonp",
+						    	type: 'GET',
+								dataType: 'jsonp',
 								cache: true,
-								url: 'https://api.instagram.com/v1/users/search?q=bsudekum&' + aToken,
+								url: url,
 								success: function (user) {
-									$('.sign-in .ui-btn-text').html(user.data[0].full_name + "<img src='" + user.data[0].profile_picture + "' height=20px width=20px />");
 									
-									var id = user.data[0].id;
-									console.log(whos)
-
-									if(whos == 'user'){
-										var url = 'https://api.instagram.com/v1/users/' + id + '/media/recent/?' + aToken;	
-									}else{
-										var url = 'https://api.instagram.com/v1/users/self/feed?' + aToken;	
-									}
-
+									var user = user.data[0].id;
+									
 									$.ajax({
-								      	type: "GET",
-										dataType: "jsonp",
+								    	type: 'GET',
+										dataType: 'jsonp',
 										cache: true,
-										url: url,
+										url: 'https://api.instagram.com/v1/users/' + user + '/media/recent/?' + aToken,
 										success: function (photos) {
+											console.log(photos)
 											runPhotos(photos)
 										}
 									});
-
 								}
 							});
+
+						}else{
+							if(aToken){
+								var url = 'https://api.instagram.com/v1/users/self/feed?' + aToken;	
+							}else{
+								alert('please sign in first')
+							}
 						}
+
+						$.ajax({
+					    	type: 'GET',
+							dataType: 'jsonp',
+							cache: true,
+							url: url,
+							success: function (photos) {
+								$('.sign-in .ui-btn-text').html("Signed in");
+								runPhotos(photos)
+							}
+						});
 				},
 				signIn: function(e){
-					var CLIENT_ID = 'c498856d8c394e109d9350203dd1d488'; //change here
-					var CALLBACK_URL = 'http://mapgrams.com/'; // change here
+					
+					if(location.host == 'localhost:8000'){
+						var CLIENT_ID = '52838ef4a1e14d0cbbad8b20d71714d4';
+						var CALLBACK_URL = 'http://localhost:8000/';
+					}else{
+						var CLIENT_ID = 'c498856d8c394e109d9350203dd1d488';
+						var CALLBACK_URL = 'http://mapgrams.com/';
+					}
+					
 					location.href="https://instagram.com/oauth/authorize/?display=touch&client_id="+CLIENT_ID+"&redirect_uri="+CALLBACK_URL+"&response_type=token";
 				},
 		});
@@ -185,15 +231,13 @@ $(function(){
 				var max_timestamp = model.get('max_timestamp');
 				var clusterOn = model.get('clustering');
 				$('.leaflet-overlay-pane svg g').remove();
-				
-				console.log(includePhoto)
 
 				var circle = new L.Circle(maps.latlng, radius, {
-						color: '#919191',
-						fill: false,
-						fillOpacity: 0,
-						weight: 1.5,
-						clickable: false
+					color: '#919191',
+					fill: false,
+					fillOpacity: 0,
+					weight: 1.5,
+					clickable: false
 				});
 
 				map.addLayer(circle);
@@ -205,9 +249,9 @@ $(function(){
 			    }).addTo(map);
 
 				var markers = new L.MarkerClusterGroup({
-						disableClusteringAtZoom:17,
-						maxClusterRadius:50,
-						animateAddingMarkers: true
+					disableClusteringAtZoom:17,
+					maxClusterRadius:50,
+					animateAddingMarkers: true
 				});
 
 				if(!clusterOn){
@@ -245,8 +289,10 @@ $(function(){
   				var date = $.timeago(new Date(parseInt(photos.data[num].created_time) * 1000));
   				
   				if(photos.data[num].location){
+  					
   					var lat = photos.data[num].location.latitude;
   					var lng = photos.data[num].location.longitude;
+  					var show = true;
 
   					if(photos.data[num].location.name){
   						var location = 'at ' + photos.data[num].location.name;
@@ -257,6 +303,7 @@ $(function(){
   				}else{
   					var lat = 0;
   					var lng = 0;
+  					var show = false;
   				}
 
   				if(photos.data[num].videos){
@@ -270,6 +317,7 @@ $(function(){
   				}
   				
   				var imageIcon = L.icon({
+  					className: show,
   				    iconUrl: imgThumb,
   				    iconRetinaUrl: imgThumb,
   				    iconSize: [40, 40],
@@ -277,7 +325,8 @@ $(function(){
   				});
 
       		    var marker = L.marker(new L.LatLng(lat,lng),{
-      		    	icon:imageIcon
+      		    	icon:imageIcon,
+      		    	className:show
       		    });
 
       		    var videoIcon = L.divIcon({
@@ -382,6 +431,8 @@ $(function(){
     			markerVideo.on('click', function(e) {
         			map.panTo(marker.getLatLng());
     			});
+
+    			map.fitBounds(markers.getBounds());
 
 	      		$('.loading').remove();
 

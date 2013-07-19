@@ -17,21 +17,27 @@
         <div data-role='page' class='type-interior'>
         
             <div data-role='header' data-theme='c'>
-                <a href="#mypanel" data-icon="gear" class='ui-btn-left open-panel'>Options</a>
+                <a href='#mypanel' data-icon='gear' class='ui-btn-left open-panel'>Options</a>
                 <h1>MapGrams</h1>
-                <a href="#" class='sign-in'>Sign In with Instagram</a>
+                <a href='#' class='sign-in'>Sign In with Instagram</a>
             </div><!-- /header -->
 
             <div data-role='panel' id='mypanel' data-display='push'>
 
-                <form>
-                    <fieldset data-role="controlgroup" id='whos-photos'>
+                <form id='userphoto'>
+                    <fieldset data-role='controlgroup' id='whos-photos'>
                         <legend>Who's Photos?</legend>
-                        <input type="radio" name="radio-choice-v-2" id="radio-choice-v-2a" value="user" checked="checked">
-                        <label for="radio-choice-v-2a">Your Photos</label>
-                        <input type="radio" name="radio-choice-v-2" id="radio-choice-v-2b" value="friend">
-                        <label for="radio-choice-v-2b">My Friends Photos</label>
+                        <input type='radio' name='radio-choice-v-2' id='radio-choice-v-2a' value='user'>
+                        <label for='radio-choice-v-2a'>Your Photos</label>
+                        <input type='radio' name='radio-choice-v-2' id='radio-choice-v-2b' value='friend' checked='checked'>
+                        <label for='radio-choice-v-2b'>My Friends Photos</label>
                     </fieldset>
+                </form>
+
+                <form id='user-form'>
+                    <label for='username'>Search Username:</label>
+                    <input type='search' name='username' id='username' value=''placeholder='Username'>
+                    <button class='username-btn' data-theme='c'>Search</button>
                 </form>
 
                 <form>
@@ -79,10 +85,10 @@
                 </form> -->
                 
                 <form>
-                    <div data-role="rangeslider">
-                        <label for="range-10a">Time Period</label>
-                        <input type="range" name="range-10b" id="range-10b" min="0" max="7" step="1" value="0">
-                        <input type="range" name="range-10a" id="range-10a" min="0" max="7" step="1" value="7">
+                    <div data-role='rangeslider'>
+                        <label for='range-10a'>Time Period</label>
+                        <input type='range' name='range-10b' id='range-10b' min='0' max='7' step='1' value='0'>
+                        <input type='range' name='range-10a' id='range-10a' min='0' max='7' step='1' value='7'>
                     </div>
                     <ul>
                         <li><small>Newest photo/video within last 7 days</small></li>
@@ -102,9 +108,7 @@
 
             <div data-role='content'>
 
-                <div class='content-primary'>
-                    
-                    <div id='map'></div>
+                <div class='content-primary' id='map'>
                 </div><!--/content-primary -->      
             
             </div><!-- /content -->
@@ -117,10 +121,10 @@
         $(document).bind('mobileinit', function () {
           $.mobile.hashListeningEnabled = false;
           $.mobile.linkBindingEnabled = false;
+          $.mobile.ajaxEnabled=false
         });
     </script>
     <script src='js/leaflet-hash.js'></script>
-    <script src='js/instafeed.js'></script>
     <script src='js/jquery.mobile.js'></script>
     <script src='js/underscore.js'></script>
     <script src='js/backbone.js'></script>
