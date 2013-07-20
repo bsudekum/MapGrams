@@ -10,10 +10,11 @@ a {
 }
 #map{
 	position: absolute;
-	top: 42px;
+	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
+	z-index: -2;
 }
 .ui-panel-content-wrap{
 	min-height: 100%!important;
@@ -85,7 +86,7 @@ keyframes dotPulse {
 	margin: 0 5px 0 0;
 }
 
-#heart {
+.heart {
 	color: #EBA994;
 }
 
@@ -118,12 +119,13 @@ keyframes dotPulse {
 	margin: 9px!important;
 }
 
-.locator a {
+.locator a,
+.trashcan a {
 	background-color: #FFF;
 	border: 1px solid #CCC;
-	width: 26px;
-	height: 26px;
-	line-height: 26px;
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
 	display: block;
 	text-align: center;
 	text-decoration: none;
@@ -131,11 +133,13 @@ keyframes dotPulse {
 	-webkit-radius: 2px;
 	border-radius: 2px;
 }
-.locator a:hover{
+.locator a:hover,
+.trashcan a:hover{
 	background-color: #F4F4F4;
 }
 
-.locator img {
+.locator img,
+.trashcan img {
 	position: relative;
 	top: 2px;
 	right: 1px;
@@ -167,4 +171,39 @@ keyframes dotPulse {
 
 .cluster-image img:hover{
 	opacity: 1;
+}
+
+.ui-bar-c {
+	background: rgba(255, 255, 255, 0.87)!important;
+	border: 1px solid rgba(252, 252, 252, 0)!important;
+}
+
+.ui-body-c {
+	background: none!important
+}
+
+.ui-btn-up-c {
+	border: 1px solid #EBEBEB!important;
+}
+
+.ui-header .ui-btn-left, .ui-header .ui-btn-right, .ui-footer .ui-btn-left, .ui-footer .ui-btn-right, .ui-header-fixed.ui-fixed-hidden .ui-btn-left, .ui-header-fixed.ui-fixed-hidden .ui-btn-right {
+	position: absolute;
+	top: 5px!important;
+}
+
+.leaflet-top .leaflet-control {
+	position: relative;
+	top: 44px;
+}
+
+.leaflet-container a{
+	color: #7FA4B3;
+}
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+	color:black!important;
+}
+
+.leaflet-container {
+	color:#696969;
 }
