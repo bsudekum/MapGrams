@@ -39,12 +39,13 @@
 			}
 		},
 
-		formatHash: function(map) {
+		formatHash: function(map,imgID) {
 			var center = map.getCenter(),
 			    zoom = map.getZoom(),
+			    imgID = imgID || '';
 			    precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
-
-			return "#" + [zoom,
+			    // http://localhost:8000/#photo=#6/38.065/-91.208
+			return "#photo=" + imgID + "#" + [zoom,
 				center.lat.toFixed(precision),
 				center.lng.toFixed(precision)
 			].join("/");

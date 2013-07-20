@@ -53,9 +53,9 @@ form {
 .my-div-icon {
 	background-color: #7AA6D5;
 	border-radius: 30px;
-	animation: dotPulse 2000ms linear 0ms infinite;
-	-moz-animation: dotPulse 2000ms linear 0ms infinite;
-	-webkit-animation: dotPulse 2000ms linear 0ms infinite;
+	animation: dotPulse 2000ms 0ms infinite;
+	-moz-animation: dotPulse 2000ms 0ms infinite;
+	-webkit-animation: dotPulse 2000ms 0ms infinite;
 }
 
 @-webkit-keyframes dotPulse {
@@ -206,4 +206,69 @@ keyframes dotPulse {
 
 .leaflet-container {
 	color:#696969;
+}
+
+#map-ui {
+    position: absolute;
+    top: 75px;
+    left: 10px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    z-index: 100;
+}
+
+#map-ui a {
+    font: normal 13px/18px 'Helvetica Neue', Helvetica, sans-serif;
+    background: #FFF;
+    color: #3C4E5A;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #BBB;
+    border-bottom-width: 0;
+    min-width: 138px;
+    padding: 10px;
+    text-decoration: none;
+}
+
+#map-ui a:hover {
+    background: #ECF5FA;
+}
+
+#map-ui li:last-child a {
+    border-bottom-width: 1px;
+    -webkit-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+}
+
+#map-ui li:first-child a {
+    -webkit-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+}
+
+#map-ui a.active {
+    background: #3887BE;
+    border-color: #3887BE;
+    border-top-color: #FFF;
+    color: #FFF;
+}
+
+.leaflet-control-mapbox-geocoder.leaflet-control {
+	position: relative;
+	top: 13px;
+}
+
+.leaflet-control .mapbox-button {
+	border-radius: 2px;
+	font-weight: lighter;
+}
+
+.leaflet-control-mapbox-geocoder input[type=text] {
+	border: 1px solid #BBB;
+	background: rgba(255, 255, 255, 0.14);
+}
+.leaflet-control-mapbox-geocoder-form:hover .leaflet-control-mapbox-geocoder input[type=text] {
+	border: 1px solid #BBB;
+	background: rgba(255, 255, 255, 1);
 }

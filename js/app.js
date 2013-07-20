@@ -1,5 +1,5 @@
 $(function(){
-		// $('.open-panel').click()
+		$('.open-panel').click()
 
 		var model = new Backbone.Model();
 
@@ -25,15 +25,18 @@ $(function(){
 			max_timestamp:time,
 			liar:false,
 			userId: null,
-			whos: 'user',
 			token: token || '',
 			username: ''
 		});
 
-		var map = L.mapbox.map('map', 'bobbysud.map-29smq0w6',{
+		var sat = L.tileLayer('http://{s}.tiles.mapbox.com/v3/bobbysud.map-l4i2m7nd/{z}/{x}/{y}.png');
+		var basemap = L.tileLayer('http://{s}.tiles.mapbox.com/v3/bobbysud.map-29smq0w6/{z}/{x}/{y}.png');
+		var map = L.map('map',{
+			layers:[basemap],
 			fadeAnimation:false
-		}).setView([37.7746,-122.4373],16);
+		}).setView([37.7746,-122.4373],16).addControl(L.mapbox.geocoderControl('examples.map-vyofok3q'));
 
+		var imgID = '';
 		var hash = new L.Hash(map);
 		
 		map.attributionControl.addAttribution('<a href="http://visuallybs.com" targer=_blank>Bobby Sudekum</a>');
@@ -78,7 +81,8 @@ $(function(){
       			'click .locator': 'findLocation',
       			'click .sign-in': 'signIn',
       			'submit #user-form': 'getUserName',
-      			'click .trashcan': 'removePics'
+      			'click .trashcan': 'removePics',
+      			'click form#maplayer': 'switchMap'
     		},
 		
 				initialize: function(){
@@ -86,7 +90,15 @@ $(function(){
 					this.render();
 				},
 
-				mapUser: function(){
+				switchMap: function(){
+					if($('#radio-choice-v-2b').is(':checked')){
+							map.addLayer(basemap);
+							map.removeLayer(sat);
+						}else{
+							
+							map.addLayer(sat);
+							map.removeLayer(basemap);
+						}
 				},
 		
 				render: function(){
@@ -159,11 +171,6 @@ $(function(){
 						model.set({
 							username: u
 						});
-						if($('#radio-choice-v-2a').is(':checked')){
-							var user = 'user'
-						}else{
-							var user = 'friend'
-						}
 						
 						var secDay = 86400;
 						var newMin = new Date().getTime()/1000 - (secDay * dayMin)
@@ -176,7 +183,6 @@ $(function(){
 							radius:radius,
 							likes: likes,
 							max_timestamp: newMax,
-							whos: user
 						});
 
 						var aToken = model.get('token')
@@ -307,12 +313,12 @@ $(function(){
 
 		function runPhotos(photos, fit){
 			$.each(photos.data, function(num){
-			    console.log(photos.data[num])
   				var link = photos.data[num].link;
   				var username = photos.data[num].user.username;
   				var profile = photos.data[num].user.profile_picture;
   				var imgUrl = photos.data[num].images.low_resolution.url;
   				var imgThumb = photos.data[num].images.thumbnail.url;
+  				var imgId = photos.data[num].id
   				var filter = 'filter - ' + photos.data[num].filter;
   				var video = model.get('video');
 				var includePhoto = model.get('photo');
@@ -359,7 +365,7 @@ $(function(){
   				}
   				
   				var imageIcon = L.icon({
-  					className: show,
+  					className: 'imgId-' + imgId,
   				    iconUrl: imgThumb,
   				    iconRetinaUrl: imgThumb,
   				    iconSize: [40, 40],
@@ -368,7 +374,7 @@ $(function(){
 
       		    var marker = L.marker(new L.LatLng(lat,lng),{
       		    	icon:imageIcon,
-      		    	className:show
+      		    	className:'imgId-' + imgId
       		    });
 
       		    var videoIcon = L.divIcon({
@@ -405,8 +411,8 @@ $(function(){
       		    		'<p>'+caption+'</p>' +
       		    	'</div>',{
       		    	maxWidth:273,
-      		    	autoPanPadding: new L.Point(5, 44)
-      		    	// autoPan:false
+      		    	autoPanPadding: new L.Point(5, 44),
+      		    	autoPan:false
       		    });
 
       		    marker.bindPopup(""+
@@ -432,8 +438,9 @@ $(function(){
       		    		'<p class="caption">'+caption+'</p>' +
       		    	'</div>',{
       		    	maxWidth:273,
-      		    	autoPanPadding: new L.Point(5, 44)
-      		    	// autoPan: false
+      		    	minWidth: imgId,
+      		    	autoPanPadding: new L.Point(5, 44),
+      		    	autoPan: false
       		    });
 							
 				if(includePhoto){
@@ -443,26 +450,13 @@ $(function(){
 		        if(photos.data[num].videos){
 		        	markers.addLayer(markerVideo);
 		        }
-
-		        // markers.options.iconCreateFunction = function(cluster){
-		        // 	for(i=1;i<cluster.getChildCount();i++){
-		        // 		if (i==10) break;
-		        // 		var cl ='<img src="' + cluster.getAllChildMarkers()[i].options.icon.options.iconUrl + '"/>';
-		        // 		var cls = cl + cls
-		        // 	}
-
-		        // 	return new L.DivIcon({
-		        // 		html: cls ,
-		        // 		className: 'cluster-image',
-		        // 		iconAnchor:[40,20]
-		        // 	});
-		        // }
 		        
 	      		map.addLayer(markers);
 
 	      		marker.on('mouseover', function(e) {
 	      			marker.openPopup();
 	      		});
+
 	      		markerVideo.on('mouseover', function(e) {
 	      			markerVideo.openPopup();
 	      		});
@@ -482,6 +476,15 @@ $(function(){
 	      		$('.loading').remove();
 
 		    });
+
+			map.on('popupopen', function(e) {
+				var imgID = e.popup.options.minWidth;
+	  			window.location.hash ='#photo=' + imgID
+	  		}).on('popupclose', function(e) {
+				var imgID = '';
+				window.location.hash = imgID
+	  		});
+
 		}
 });
 
