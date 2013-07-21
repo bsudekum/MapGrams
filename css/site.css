@@ -7,6 +7,7 @@ a {
 }
 .ui-header .ui-title {
 	font-weight: 100;
+	color:#505050;
 }
 #map{
 	position: absolute;
@@ -90,6 +91,44 @@ keyframes dotPulse {
 	color: #EBA994;
 }
 
+.top-text {
+	height: 64px;
+	position: relative;
+}
+
+.bottom-text {
+	position: relative;
+	height: 273px;
+}
+
+.bottom-text p {
+	position: absolute;
+	padding: 8px 9px;
+	margin: 0;
+	bottom: 0;
+	line-height: 12px;
+	background: #C4C4C4;
+	color: rgba(112, 112, 112, 0.96);
+	opacity: .3;
+	height: 20px;
+	overflow: scroll;
+	width: 255px;
+	-webkit-transition: opacity .3s ease-in-out;
+	-moz-transition: opacity .3s ease-in-out;
+	-ms-transition: opacity .3s ease-in-out;
+	-o-transition: opacity .3s ease-in-out;
+	transition: opacity .3s ease-in-out;
+}
+
+.bottom-text p:hover {
+	background: #EBEBEB;
+	color: #585858;
+	opacity: .75;
+}
+
+.bottom-text img {
+	float: left;
+}
 .leaflet-popup-content .top-text p {
 	margin: 0;
 	padding: 0;
@@ -99,7 +138,6 @@ keyframes dotPulse {
 	float: left;
 }
 
-.bottom-text p,
 .bottom-text h3{
 	margin: 5px 0!important;
 }

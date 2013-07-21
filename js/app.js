@@ -89,7 +89,8 @@ $(function(){
       			'click .sign-in': 'signIn',
       			'submit #user-form': 'getUserName',
       			'click .trashcan': 'removePics',
-      			'click form#maplayer': 'switchMap'
+      			'click form#maplayer': 'switchMap',
+      			'click .text-close': 'closeText'
     		},
 		
 				initialize: function(){
@@ -106,22 +107,25 @@ $(function(){
 							map.removeLayer(basemap);
 						}
 				},
+
+				closeText: function(e){
+					e.preventDefault();
+					console.log('gerge')
+					$('.caption').remove();
+				},
 		
 				render: function(){
 					if(photoId){
 						var aToken = $.cookie('token_cookie') || location.hash.substr(1);
 						$.cookie('token_cookie', aToken, { expires: 300 });
 						
-						console.log(photoId)
 						$.ajax({
 					      	type: 'GET',
 							dataType: 'jsonp',
 							cache: true,
 							url: 'https://api.instagram.com/v1/media/' + photoId + '?' + aToken,
 							success: function (photos) {
-								console.log(photos.data.link)
 								runPhoto(photos, fit)
-
 							}
 						});
 					}else if(location.hash.length > 25 || $.cookie('token_cookie')) {
@@ -189,10 +193,6 @@ $(function(){
 						var dayMin = $('#range-10b').val();
 						var dayMax = $('#range-10a').val();
 						var u = $('#username').val();
-						model.set({
-							username: u
-						});
-						
 						var secDay = 86400;
 						var newMin = new Date().getTime()/1000 - (secDay * dayMin)
 						var newMax = new Date().getTime()/1000 - (secDay * dayMax)
@@ -204,6 +204,7 @@ $(function(){
 							radius:radius,
 							likes: likes,
 							max_timestamp: newMax,
+							username: u
 						});
 
 						var aToken = model.get('token')
@@ -288,7 +289,7 @@ $(function(){
 				var includePhoto = model.get('photo');
 				var min_timestamp = model.get('min_timestamp');
 				var max_timestamp = model.get('max_timestamp');
-				var clusterOn = model.get('clustering');
+
 				$('.leaflet-overlay-pane svg g').remove();
 
 				var circle = new L.Circle(maps.latlng, radius, {
@@ -306,16 +307,6 @@ $(function(){
 			    var loading = L.marker(maps.latlng,{
 			    	icon:loadingIcon
 			    }).addTo(map);
-
-				var markers = new L.MarkerClusterGroup({
-					disableClusteringAtZoom:17,
-					maxClusterRadius:50,
-					animateAddingMarkers: true
-				});
-
-				if(!clusterOn){
-					markers.options.disableClusteringAtZoom = 1;
-				}
 				
 				var url = 'https://api.instagram.com/v1/media/search?lat=' + llat + '&lng=' + llng + '&distance=' + radius + '&min_timestamp=' + min_timestamp + '&max_timestamp=' + max_timestamp + '&client_id=5d1ba596dc034a7a8895e309f5f2452f&count=100';	
 				
@@ -335,6 +326,7 @@ $(function(){
 		function runPhotos(photos, fit){
 			$.each(photos.data, function(num){
 				var link = photos.data[num].link;
+				var clusterOn = model.get('clustering');
   				var username = photos.data[num].user.username || '';
   				var profile = photos.data[num].user.profile_picture || '';
   				var imgUrl = photos.data[num].images.low_resolution.url || '';
@@ -374,7 +366,6 @@ $(function(){
   					var lng = 0;
   					var show = false;
   				}
-
   				if(photos.data[num].videos){
   					var videoUrl = photos.data[num].videos.low_resolution.url;
   				}
@@ -382,8 +373,11 @@ $(function(){
   				if(photos.data[num].caption){
   						var caption = photos.data[num].caption.text
   				}else{
-  					var caption = '-';
+  					var caption = '';
   				}
+  				if(!clusterOn){
+					markers.options.disableClusteringAtZoom = 1;
+				}
   				
   				var imageIcon = L.icon({
   					className: 'imgId-' + imgId,
@@ -420,20 +414,20 @@ $(function(){
 	      		    	'<div class="pull-right">' +
 	      		    		'<p>' + date + '</p>' +
 	      		    		'<p>' + location + '</p>' +
-	      		    		'<p>' + likes + '</p>' +
+	      		    		'<p>' + likes + '<span class="heart"> ♥</span></p>' +
 	      		    	'</div>'+
       		    	'</div>' +
-
-      		    	'<a href="' + link + '" target=_blank>'+
-      		    		'<video width="273" height="273" autoplay loop><source src="' + videoUrl + '" type="video/mp4">Your browser does not support the video tag.</video>'+
-      		    	'</a>'+
-
       		    	'<div class="bottom-text">' +
-      		    		'<p>'+caption+'</p>' +
+	      		    	'<a href="' + link + '" target=_blank>'+
+	      		    		'<video width="273" height="273" autoplay loop><source src="' + videoUrl + '" type="video/mp4">Your browser does not support the video tag.</video>'+
+	      		    	'</a>'+
+      		    		'<p class="caption">' + caption + '<span><a class="leaflet-popup-close-button text-close" href="#close">×</a></span></p>' +
+
       		    	'</div>',{
       		    	maxWidth:273,
+      		    	minWidth: imgId,
       		    	autoPanPadding: new L.Point(5, 44),
-      		    	autoPan:false
+      		    	autoPan: false
       		    });
 
       		    marker.bindPopup(""+
@@ -451,12 +445,12 @@ $(function(){
 	      		    		'<p>' + likes + '<span class="heart"> ♥</span></p>' +
 	      		    	'</div>'+
       		    	'</div>' +
-
-      		    	'<a href="' + link + '" target=_blank>'+
-      		    		'<img src="' + imgUrl + '" height="273px" width="273px"/>'+
-      		    	'</a>'+
       		    	'<div class="bottom-text">' +
-      		    		'<p class="caption">'+caption+'</p>' +
+	      		    	'<a href="' + link + '" target=_blank>'+
+	      		    		'<img src="' + imgUrl + '" height="273px" width="273px"/>'+
+	      		    	'</a>'+
+      		    		'<p class="caption">' + caption + '<span><a class="leaflet-popup-close-button text-close" href="#close">×</a></span></p>' +
+
       		    	'</div>',{
       		    	maxWidth:273,
       		    	minWidth: imgId,
@@ -557,7 +551,7 @@ $(function(){
 			if(photos.data.caption){
 					var caption = photos.data.caption.text
 			}else{
-				var caption = '-';
+				var caption = '';
 			}
 			
 			var imageIcon = L.icon({
@@ -584,59 +578,58 @@ $(function(){
 		    });
 
 		    markerVideo.bindPopup(""+
-		    	'<div class="top-text">'+
-		    		
-		    		'<a href="http://instagram.com/' + username + '" target=_blank>'+
-		    			'<img src="' + profile + '" height="40px" width="40px" class="profile"/>'+
-		    			// '<p>' + name + '</p>' +
-		    			'<p>' + username + '</p>' +
-		    		'</a>' +
+		    	'<div class="top-text">'+	
+  		    		'<a href="http://instagram.com/' + username + '" target=_blank>'+
+  		    			'<img src="' + profile + '" height="40px" width="40px" class="profile"/>'+
+  		    			// '<p>' + name + '</p>' +
+  		    			'<p>' + username + '</p>' +
+  		    		'</a>' +
 
-  		    	'<div class="pull-right">' +
-  		    		'<p>' + date + '</p>' +
-  		    		'<p>' + location + '</p>' +
-  		    		'<p>' + likes + '</p>' +
-  		    	'</div>'+
-		    	'</div>' +
+      		    	'<div class="pull-right">' +
+      		    		'<p>' + date + '</p>' +
+      		    		'<p>' + location + '</p>' +
+      		    		'<p>' + likes + '<span class="heart"> ♥</span></p>' +
+      		    	'</div>'+
+  		    	'</div>' +
+  		    	'<div class="bottom-text">' +
+      		    	'<a href="' + link + '" target=_blank>'+
+      		    		'<video width="273" height="273" autoplay loop><source src="' + videoUrl + '" type="video/mp4">Your browser does not support the video tag.</video>'+
+      		    	'</a>'+
+  		    		'<p class="caption">' + caption + '<span><a class="leaflet-popup-close-button text-close" href="#close">×</a></span></p>' +
 
-		    	'<a href="' + link + '" target=_blank>'+
-		    		'<video width="273" height="273" autoplay loop><source src="' + videoUrl + '" type="video/mp4">Your browser does not support the video tag.</video>'+
-		    	'</a>'+
+  		    	'</div>',{
+  		    	maxWidth:273,
+  		    	minWidth: imgId,
+  		    	autoPanPadding: new L.Point(5, 44),
+  		    	autoPan: false
+  		    });
 
-		    	'<div class="bottom-text">' +
-		    		'<p>'+caption+'</p>' +
-		    	'</div>',{
-		    	maxWidth:273,
-		    	autoPanPadding: new L.Point(5, 44),
-		    	autoPan:false
-		    });
+  		    marker.bindPopup(""+
+  		    	'<div class="top-text">'+
+  		    		
+  		    		'<a href="http://instagram.com/' + username + '" target=_blank>'+
+  		    			'<img src="' + profile + '" height="40px" width="40px" class="profile"/>'+
+  		    			// '<p>' + name + '</p>' +
+  		    			'<p>' + username + '</p>' +
+  		    		'</a>' +
 
-		    marker.bindPopup(""+
-		    	'<div class="top-text">'+
-		    		
-		    		'<a href="http://instagram.com/' + username + '" target=_blank>'+
-		    			'<img src="' + profile + '" height="40px" width="40px" class="profile"/>'+
-		    			// '<p>' + name + '</p>' +
-		    			'<p>' + username + '</p>' +
-		    		'</a>' +
+      		    	'<div class="pull-right">' +
+      		    		'<p>' + date + '</p>' +
+      		    		'<p>' + location + '</p>' +
+      		    		'<p>' + likes + '<span class="heart"> ♥</span></p>' +
+      		    	'</div>'+
+  		    	'</div>' +
+  		    	'<div class="bottom-text">' +
+      		    	'<a href="' + link + '" target=_blank>'+
+      		    		'<img src="' + imgUrl + '" height="273px" width="273px"/>'+
+      		    	'</a>'+
+  		    		'<p class="caption">' + caption + '<span><a class="leaflet-popup-close-button text-close" href="#close">×</a></span></p>' +
 
-  		    	'<div class="pull-right">' +
-  		    		'<p>' + date + '</p>' +
-  		    		'<p>' + location + '</p>' +
-  		    		'<p>' + likes + '<span class="heart"> ♥</span></p>' +
-  		    	'</div>'+
-		    	'</div>' +
-
-		    	'<a href="' + link + '" target=_blank>'+
-		    		'<img src="' + imgUrl + '" height="273px" width="273px"/>'+
-		    	'</a>'+
-		    	'<div class="bottom-text">' +
-		    		'<p class="caption">'+caption+'</p>' +
-		    	'</div>',{
-		    	maxWidth:273,
-		    	minWidth: imgId,
-		    	autoPanPadding: new L.Point(5, 44),
-		    	autoPan: false
+  		    	'</div>',{
+  		    	maxWidth:273,
+  		    	minWidth: imgId,
+  		    	autoPanPadding: new L.Point(5, 44),
+  		    	autoPan: false
 		    });
 					
 		if(includePhoto){
