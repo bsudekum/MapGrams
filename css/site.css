@@ -272,3 +272,8 @@ keyframes dotPulse {
 	border: 1px solid #BBB;
 	background: rgba(255, 255, 255, 1);
 }
+
+.leaflet-control-mapbox-geocoder.leaflet-control {
+	position: absolute;
+	top: 185px;
+}
