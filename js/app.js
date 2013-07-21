@@ -1,6 +1,5 @@
 $(function(){
 		// $('.open-panel').click()
-
 		var model = new Backbone.Model();
 
 		var time = new Date().getTime()/1000-604800;//Max time back is 1 week. 604800 is 1 week.
@@ -39,12 +38,20 @@ $(function(){
 		var sat = L.tileLayer('http://{s}.tiles.mapbox.com/v3/bobbysud.map-l4i2m7nd/{z}/{x}/{y}.png');
 		var basemap = L.tileLayer('http://{s}.tiles.mapbox.com/v3/bobbysud.map-29smq0w6/{z}/{x}/{y}.png');
 		var map = L.map('map',{
-			layers:[basemap],
-			fadeAnimation:false
-		}).setView([37.7746,-122.4373],16).addControl(L.mapbox.geocoderControl('examples.map-vyofok3q'));
+			fadeAnimation:false,
+			maxZoom:19,
+		}).addControl(L.mapbox.geocoderControl('examples.map-vyofok3q'));
+
+		var hash = new L.Hash(map);
+		if (!window.location.hash) {
+		    map.setView([37.7818,-122.4203], 15);
+		}
+
+		basemap.addTo(map);
+		map.addLayer(basemap);
 
 		var markers = new L.MarkerClusterGroup({
-			disableClusteringAtZoom:17,
+			disableClusteringAtZoom:16,
 			maxClusterRadius:50,
 			animateAddingMarkers: false
 		});
@@ -116,19 +123,18 @@ $(function(){
 		
 				render: function(){
 					if(photoId){
-						var aToken = $.cookie('token_cookie') || location.hash.substr(1);
-						$.cookie('token_cookie', aToken, { expires: 300 });
+						console.log(photoId)
 						
 						$.ajax({
 					      	type: 'GET',
 							dataType: 'jsonp',
 							cache: true,
-							url: 'https://api.instagram.com/v1/media/' + photoId + '?' + aToken,
+							url: 'https://api.instagram.com/v1/media/' + photoId + '?access_token=11377329.52838ef.2f3389066ca54790ad67335ddb677f84',
 							success: function (photos) {
 								runPhoto(photos, fit)
 							}
 						});
-					}else if(location.hash.length > 25 || $.cookie('token_cookie')) {
+					}else if(location.hash.length > 30 || $.cookie('token_cookie')) {
 						
 						var aToken = $.cookie('token_cookie') || location.hash.substr(1);
 						$.cookie('token_cookie', aToken, { expires: 300 });
@@ -632,13 +638,13 @@ $(function(){
   		    	autoPan: false
 		    });
 					
-		if(includePhoto){
-			markers.addLayer(marker);	
-		}
-
+		
         if(photos.data.videos){
         	markers.addLayer(markerVideo);
         }
+        if(includePhoto){
+			markers.addLayer(marker);	
+		}
         
   		map.addLayer(markers);
 
@@ -660,10 +666,12 @@ $(function(){
 		if(fit){
 			map.fitBounds(markers.getBounds());
 		}
-
+		map.panBy(new L.Point(0, 200));
 		map.zoomOut();
+
 		setTimeout(function(){
 			marker.openPopup();	
+			markerVideo.openPopup();	
 		},1500)
 
   		$('.loading').remove();
