@@ -92,7 +92,7 @@ keyframes dotPulse {
 }
 
 .top-text {
-	height: 64px;
+	height: 59px;
 	position: relative;
 }
 
@@ -143,7 +143,7 @@ keyframes dotPulse {
 }
 
 .leaflet-popup-content .top-text a p{
-	margin: 0 0 5px 0;
+	margin: 0;
 	width: 81px;
 }
 .leaflet-popup-content .top-text .pull-right {

@@ -13,9 +13,7 @@ $(function(){
 		}
 
 		if(location.hash.slice(1,8) !== 'photo=#' && location.hash.slice(0,7) !== '#access'){
-			console.log(location.hash)
 			var photoId = location.hash.slice(7)
-			console.log(photoId)
 		}
 
 		model.set({
@@ -94,7 +92,7 @@ $(function(){
       			'change form': 'updateParam',
       			'click .locator': 'findLocation',
       			'click .sign-in': 'signIn',
-      			'submit #user-form': 'getUserName',
+      			'submit #user-form': 'getUserPhoto',
       			'click .trashcan': 'removePics',
       			'click form#maplayer': 'switchMap',
       			'click .text-close': 'closeText'
@@ -117,13 +115,11 @@ $(function(){
 
 				closeText: function(e){
 					e.preventDefault();
-					console.log('gerge')
 					$('.caption').remove();
 				},
 		
 				render: function(){
 					if(photoId){
-						console.log(photoId)
 						
 						$.ajax({
 					      	type: 'GET',
@@ -165,6 +161,7 @@ $(function(){
 				},
 
 				getUserPhoto: function(e){
+					e.preventDefault()
 					if($('#radio-choice-v-2b').is(':checked')){
 							var user = 'user'
 						}else{
@@ -674,9 +671,16 @@ $(function(){
 			markerVideo.openPopup();	
 		},1500)
 
+
   		$('.loading').remove();
 
 		map.on('popupopen', function(e) {
+			
+			//remove empty caption
+			if($('.caption').html().length == 81){
+				$('.caption').remove()
+			}
+
 			var imgID = e.popup.options.minWidth;
   			window.location.hash ='#photo=' + imgID
   		}).on('moveend', function(e) {
