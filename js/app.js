@@ -12,8 +12,10 @@ $(function(){
 			map.fitBounds(markers.getBounds());	
 		}
 
-		if(location.hash.slice(1,8) !== 'photo=#' && location.hash.slice(0,7) !== '#access'){
+		if(location.hash.slice(1,7) == 'photo=' && location.hash.slice(0,7) !== '#access'){
 			var photoId = location.hash.slice(7)
+		}else{
+			var photoId = '';
 		}
 
 		model.set({
@@ -115,7 +117,7 @@ $(function(){
 
 				closeText: function(e){
 					e.preventDefault();
-					$('.caption').remove();
+					$('.caption').fadeOut(300, function(){ $(this).remove();});
 				},
 		
 				render: function(){
@@ -130,7 +132,7 @@ $(function(){
 								runPhoto(photos, fit)
 							}
 						});
-					}else if(location.hash.length > 30 || $.cookie('token_cookie')) {
+					}else if(location.hash.length > 35 || $.cookie('token_cookie')) {
 						
 						var aToken = $.cookie('token_cookie') || location.hash.substr(1);
 						$.cookie('token_cookie', aToken, { expires: 300 });
@@ -172,19 +174,19 @@ $(function(){
 						});
 				},
 				findLocation: function(e){
-						e.preventDefault()
-						function onLocationFound(e) {
-							var myIcon = L.divIcon({className: 'my-div-icon'});	
-							L.marker(e.latlng,{icon:myIcon}).addTo(map)
-						}
+					e.preventDefault()
+					function onLocationFound(e) {
+						var myIcon = L.divIcon({className: 'my-div-icon'});	
+						L.marker(e.latlng,{icon:myIcon}).addTo(map)
+					}
 
-						function onLocationError(e) {
-							alert(e.message)
-						}
+					function onLocationError(e) {
+						alert(e.message)
+					}
 
-						map.on('locationfound', onLocationFound);
-						map.on('locationerror', onLocationError);
-						map.locate({setView: true, maxZoom: 16});
+					map.on('locationfound', onLocationFound);
+					map.on('locationerror', onLocationError);
+					map.locate({setView: true, maxZoom: 16});
 				},
 				updateParam: function(e){
 						
@@ -213,9 +215,10 @@ $(function(){
 						var aToken = model.get('token')
 						var userName = model.get('username');
 
-						if(userName && aToken.length>2){
+						if(userName){
 
-							var url = 'https://api.instagram.com/v1/users/search?q=' + userName + '&' + aToken
+							var url = 'https://api.instagram.com/v1/users/search?q=' + userName + '&' + 'access_token=11377329.52838ef.2f3389066ca54790ad67335ddb677f84'
+
 							$.ajax({
 						    	type: 'GET',
 								dataType: 'jsonp',
@@ -229,9 +232,14 @@ $(function(){
 								    	type: 'GET',
 										dataType: 'jsonp',
 										cache: true,
-										url: 'https://api.instagram.com/v1/users/' + user + '/media/recent/?' + aToken,
+										url: 'https://api.instagram.com/v1/users/' + user + '/media/recent/?access_token=11377329.52838ef.2f3389066ca54790ad67335ddb677f84',
 										success: function (photos) {
-											runPhotos(photos)
+											$('.leaflet-marker-icon').fadeOut(300, function(){ $(this).remove();});
+											runPhotos(photos, fit)
+
+											if(photos.data.length<1){
+												alert('No Photos For User')
+											}
 										}
 									});
 								}
@@ -239,11 +247,11 @@ $(function(){
 
 						}else{
 
-							if(aToken){
+							// if(aToken){
 								var url = 'https://api.instagram.com/v1/users/self/feed?' + aToken;	
-							}else{
-								alert('please sign in first')
-							}
+							// }else{
+								// alert('please sign in first')
+							// }
 
 							$.ajax({
 						    	type: 'GET',
@@ -276,7 +284,7 @@ $(function(){
 
 				removePics: function(e) {
 					e.preventDefault();
-					$('.leaflet-marker-icon').remove();
+					$('.leaflet-marker-icon').fadeOut(300, function(){ $(this).remove();});
 				}
 		});
 
@@ -293,7 +301,7 @@ $(function(){
 				var min_timestamp = model.get('min_timestamp');
 				var max_timestamp = model.get('max_timestamp');
 
-				$('.leaflet-overlay-pane svg g').remove();
+				$('.leaflet-overlay-pane svg g').fadeOut(300, function(){ $(this).remove();});
 
 				var circle = new L.Circle(maps.latlng, radius, {
 					color: '#919191',
@@ -308,7 +316,8 @@ $(function(){
 				var loadingIcon = L.divIcon({className: 'loading', html:"<h1>Loading</h1>", clickable:false});
 
 			    var loading = L.marker(maps.latlng,{
-			    	icon:loadingIcon
+			    	icon:loadingIcon,
+			    	clickable:false
 			    }).addTo(map);
 				
 				var url = 'https://api.instagram.com/v1/media/search?lat=' + llat + '&lng=' + llng + '&distance=' + radius + '&min_timestamp=' + min_timestamp + '&max_timestamp=' + max_timestamp + '&client_id=5d1ba596dc034a7a8895e309f5f2452f&count=100';	
@@ -320,6 +329,9 @@ $(function(){
 			      url: url,
 			      success: function (photos) {
 			      		runPhotos(photos)
+			      		if(photos.data.length<1){
+			      			$('.loading').fadeOut(300, function(){ $(this).remove();});
+			      		}
 			      }
 		    });
 		}
@@ -353,10 +365,11 @@ $(function(){
   				}
 
   				if(photos.data[num].location){
-  					
-  					var lat = photos.data[num].location.latitude;
-  					var lng = photos.data[num].location.longitude;
-  					var show = true;
+  					if(photos.data[num].location.latitude){
+  						var lat = photos.data[num].location.latitude;
+  						var lng = photos.data[num].location.longitude;
+  						var show = true;
+  					}
 
   					if(photos.data[num].location.name){
   						var location = 'at ' + photos.data[num].location.name;
@@ -383,7 +396,7 @@ $(function(){
 				}
   				
   				var imageIcon = L.icon({
-  					className: 'imgId-' + imgId,
+  					className: show,
   				    iconUrl: imgThumb,
   				    iconRetinaUrl: imgThumb,
   				    iconSize: [40, 40],
@@ -490,11 +503,10 @@ $(function(){
     				map.fitBounds(markers.getBounds());	
     			}
     			
-
-	      		$('.loading').remove();
+	      		$('.loading').fadeOut(300, function(){ $(this).remove();});
 
 		    });
-
+			
 			map.on('popupopen', function(e) {
 				var imgID = e.popup.options.minWidth;
 	  			window.location.hash ='#photo=' + imgID
@@ -672,13 +684,13 @@ $(function(){
 		},1500)
 
 
-  		$('.loading').remove();
+  		$('.loading').fadeOut(300, function(){ $(this).remove();});
 
 		map.on('popupopen', function(e) {
 			
 			//remove empty caption
 			if($('.caption').html().length == 81){
-				$('.caption').remove()
+				$('.caption').fadeOut(300, function(){ $(this).remove();});
 			}
 
 			var imgID = e.popup.options.minWidth;
