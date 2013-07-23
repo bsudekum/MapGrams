@@ -45,6 +45,7 @@ form {
 }
 #mypanel{
 	overflow: scroll;
+	height: 100%;
 }
 
 .leaflet-marker-icon {

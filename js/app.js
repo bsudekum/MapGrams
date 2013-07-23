@@ -11,9 +11,11 @@ $(function(){
 		var fit = function(){
 			map.fitBounds(markers.getBounds());	
 		}
-
+	
 		if(location.hash.slice(1,7) == 'photo=' && location.hash.slice(0,7) !== '#access'){
 			var photoId = location.hash.slice(7)
+		}else if(location.hash.slice(1,6) == 'user='){
+			var username = location.hash.slice(6)
 		}else{
 			var photoId = '';
 		}
@@ -31,7 +33,7 @@ $(function(){
 			liar:false,
 			userId: null,
 			token: token || '',
-			username: '',
+			username: username || '',
 			photoId: photoId || ''
 		});
 
@@ -47,13 +49,13 @@ $(function(){
 		    map.setView([37.7818,-122.4203], 15);
 		}
 
-		basemap.addTo(map);
 		map.addLayer(basemap);
 
 		var markers = new L.MarkerClusterGroup({
 			disableClusteringAtZoom:16,
 			maxClusterRadius:50,
-			animateAddingMarkers: false
+			animateAddingMarkers: false,
+			showCoverageOnHover:false
 		});
 
 		var imgID = '';
@@ -135,7 +137,7 @@ $(function(){
 					}else if(location.hash.length > 35 || $.cookie('token_cookie')) {
 						
 						var aToken = $.cookie('token_cookie') || location.hash.substr(1);
-						$.cookie('token_cookie', aToken, { expires: 300 });
+						$.cookie('token_cookie', aToken, { expires: 1 });
 						
 						model.set({
 							token: aToken
@@ -153,6 +155,41 @@ $(function(){
 							}
 						});
 						console.log('logged in')
+					}else if(username){
+						var url = 'https://api.instagram.com/v1/users/search?q=' + username + '&' + 'access_token=11377329.52838ef.2f3389066ca54790ad67335ddb677f84'
+
+						$.ajax({
+					    	type: 'GET',
+							dataType: 'jsonp',
+							cache: true,
+							url: url,
+							success: function (user) {
+								if(!user.data[0].id){
+									alert('No username')
+								}else{
+								var user = user.data[0].id;
+								
+									$.ajax({
+								    	type: 'GET',
+										dataType: 'jsonp',
+										cache: true,
+										url: 'https://api.instagram.com/v1/users/' + user + '/media/recent/?access_token=11377329.52838ef.2f3389066ca54790ad67335ddb677f84',
+										success: function (photos) {
+											var userHash = photos.data[0].caption.from.username
+											runPhotos(photos, fit)
+
+											setTimeout(function(){
+												window.location.hash ='#user=' + userHash
+											},1000)
+											
+											if(photos.data.length<1){
+												alert('No Photos For User')
+											}
+										}
+									});
+								}
+							}
+						});
 					}else{
 						console.log('not logged in')
 					}
@@ -169,10 +206,11 @@ $(function(){
 						}else{
 							var user = 'friend'
 						}
-						model.set({
-							whos: user
-						});
+					model.set({
+						whos: user
+					});
 				},
+
 				findLocation: function(e){
 					e.preventDefault()
 					function onLocationFound(e) {
@@ -188,12 +226,12 @@ $(function(){
 					map.on('locationerror', onLocationError);
 					map.locate({setView: true, maxZoom: 16});
 				},
+
 				updateParam: function(e){
 						
 						var radius = $('#slider-distance').val();
 						var likes = $('#slider-likes').val();
 						var video = $('#video').val();
-						var cluster = $('#cluster').val();
 						var photo = $('#photo').val();
 						var dayMin = $('#range-10b').val();
 						var dayMax = $('#range-10a').val();
@@ -201,6 +239,12 @@ $(function(){
 						var secDay = 86400;
 						var newMin = new Date().getTime()/1000 - (secDay * dayMin)
 						var newMax = new Date().getTime()/1000 - (secDay * dayMax)
+
+						if($('#cluster').val() == 'true'){
+							var cluster = true;
+						}else{
+							var cluster = '';
+						}
 
 						model.set({
 							video:video,
@@ -212,6 +256,7 @@ $(function(){
 							username: u
 						});
 
+						console.log(model.get('clustering'))
 						var aToken = model.get('token')
 						var userName = model.get('username');
 
@@ -225,23 +270,30 @@ $(function(){
 								cache: true,
 								url: url,
 								success: function (user) {
-									
+									if(!user.data[0].id){
+										alert('No username')
+									}else{
 									var user = user.data[0].id;
 									
-									$.ajax({
-								    	type: 'GET',
-										dataType: 'jsonp',
-										cache: true,
-										url: 'https://api.instagram.com/v1/users/' + user + '/media/recent/?access_token=11377329.52838ef.2f3389066ca54790ad67335ddb677f84',
-										success: function (photos) {
-											$('.leaflet-marker-icon').fadeOut(300, function(){ $(this).remove();});
-											runPhotos(photos, fit)
+										$.ajax({
+									    	type: 'GET',
+											dataType: 'jsonp',
+											cache: true,
+											url: 'https://api.instagram.com/v1/users/' + user + '/media/recent/?access_token=11377329.52838ef.2f3389066ca54790ad67335ddb677f84',
+											success: function (photos) {
+												var userHash = photos.data[0].caption.from.username
+												runPhotos(photos, fit)
 
-											if(photos.data.length<1){
-												alert('No Photos For User')
+												setTimeout(function(){
+													window.location.hash ='#user=' + userHash
+												},1000)
+												
+												if(photos.data.length<1){
+													alert('No Photos For User')
+												}
 											}
-										}
-									});
+										});
+									}
 								}
 							});
 
@@ -260,7 +312,7 @@ $(function(){
 								url: url,
 								success: function (photos) {
 									$('.sign-in .ui-btn-text').html("Signed in");
-									runPhotos(photos)
+									runPhotos(photos,fit)
 								}
 							});
 
@@ -284,7 +336,7 @@ $(function(){
 
 				removePics: function(e) {
 					e.preventDefault();
-					$('.leaflet-marker-icon').fadeOut(300, function(){ $(this).remove();});
+					// markers.clearLayers(marker);
 				}
 		});
 
@@ -301,7 +353,7 @@ $(function(){
 				var min_timestamp = model.get('min_timestamp');
 				var max_timestamp = model.get('max_timestamp');
 
-				$('.leaflet-overlay-pane svg g').fadeOut(300, function(){ $(this).remove();});
+				// $('.leaflet-overlay-pane svg g').fadeOut(300, function(){ $(this).remove();});
 
 				var circle = new L.Circle(maps.latlng, radius, {
 					color: '#919191',
@@ -330,8 +382,11 @@ $(function(){
 			      success: function (photos) {
 			      		runPhotos(photos)
 			      		if(photos.data.length<1){
-			      			$('.loading').fadeOut(300, function(){ $(this).remove();});
+			      			map.removeLayer(loading);
+			      			map.removeLayer(circle);
 			      		}
+			      		map.removeLayer(loading);
+			      		map.removeLayer(circle);
 			      }
 		    });
 		}
@@ -391,9 +446,6 @@ $(function(){
   				}else{
   					var caption = '';
   				}
-  				if(!clusterOn){
-					markers.options.disableClusteringAtZoom = 1;
-				}
   				
   				var imageIcon = L.icon({
   					className: show,
@@ -484,6 +536,12 @@ $(function(){
 		        
 	      		map.addLayer(markers);
 
+  				if(clusterOn){
+					markers.options.disableClusteringAtZoom = 16;
+				}else{
+					markers.options.disableClusteringAtZoom = 1;
+				}
+  				
 	      		marker.on('mouseover', function(e) {
 	      			marker.openPopup();
 	      		});
@@ -502,8 +560,9 @@ $(function(){
     			if(fit){
     				map.fitBounds(markers.getBounds());	
     			}
-    			
-	      		$('.loading').fadeOut(300, function(){ $(this).remove();});
+    			$('.trashcan').click(function(){
+    				markers.clearLayers(marker);	
+    			});
 
 		    });
 			
@@ -683,21 +742,16 @@ $(function(){
 			markerVideo.openPopup();	
 		},1500)
 
-
-  		$('.loading').fadeOut(300, function(){ $(this).remove();});
-
 		map.on('popupopen', function(e) {
 			
 			//remove empty caption
 			if($('.caption').html().length == 81){
 				$('.caption').fadeOut(300, function(){ $(this).remove();});
 			}
-
 			var imgID = e.popup.options.minWidth;
   			window.location.hash ='#photo=' + imgID
   		}).on('moveend', function(e) {
 			var imgID = '';
-			// window.location.hash = imgID
   		});
 
 	}
