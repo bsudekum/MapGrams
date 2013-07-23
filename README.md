@@ -1,4 +1,4 @@
-### http://mapgrams.com/update
+# [MapGrams](http://mapgrams.com/)
 
 ####The MIT License
 
