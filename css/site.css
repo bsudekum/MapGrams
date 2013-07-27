@@ -316,3 +316,14 @@ keyframes dotPulse {
 	position: absolute;
 	top: 185px;
 }
+
+.ui-corner-all > .ui-header:last-child, .ui-corner-all > .ui-content:last-child, .ui-corner-all > .ui-footer:last-child {
+	background: #FFF;
+	z-index: 100000;
+}
+.ui-dialog-contain {
+	top:-80px;
+}
+.ui-dialog-contain {
+	display: none;
+}

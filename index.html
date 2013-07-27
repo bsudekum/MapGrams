@@ -14,6 +14,24 @@
         <link rel='stylesheet' href='css/site.css'>
     </head> 
     <body>
+        <div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">
+            <div data-role="header" data-theme="c" class="ui-header ui-bar-c" role="banner"><a href="#" class="ui-btn-left close-popup ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-notext ui-btn-up-c" data-icon="delete" data-iconpos="notext" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="b" title="Close"><span class="ui-btn-inner"><span class="ui-btn-text">Close</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a>
+            <h1 class="ui-title" role="heading" aria-level="1">Welcome</h1>
+        </div>
+
+        <div data-role="content" data-theme="" class="ui-content ui-body-d" role="main">
+            
+            <p><strong>You look new here.</strong> This is MapGrams, a place where can search for Instagram photos on a map. It's simple, just click the map and hover over a photo. Or search for a user by click the options button. You can even share a specific photo or username:</p>
+            <code><a href="http://mapgrams.com/#photo=504264821237410611_248706337">mapgrams.com/#photo=504264821237410611_248706337</a></code>
+            <code><a href="http://mapgrams.com/#user=kristendayon">mapgrams.com/#user=kristendayon</a></code>
+            <br>
+            <br>
+            <img src="css/out.gif" alt="" width='100%'>
+            <a href="#" data-role="button" data-theme="c" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all close-popup ui-btn-inline ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-theme='c'>Cool, got it</span></span></a>       
+        </div>
+        
+    </div>
+
         <div data-role='page' class='type-interior'>
         
             <div data-role='header' data-theme='c'>
@@ -23,6 +41,14 @@
             </div><!-- /header -->
 
             <div data-role='panel' id='mypanel' data-display='push'>
+
+
+                <a href="#popupBasic" data-rel="popup" data-role="button" data-inline="true" data-transition="pop" data-mini="true">Basic Popup</a>
+
+                <div data-role="popup" id="popupBasic">
+                    <p>This is a completely basic popup, no options set.</p>
+                </div>
+
 
                 <form id='maplayer'>
                     <fieldset data-role='controlgroup' id='map-layer'>

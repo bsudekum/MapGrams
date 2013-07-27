@@ -123,6 +123,12 @@ $(function(){
 				},
 		
 				render: function(){
+
+					if(!$.cookie('visited')){
+						this.firstTime();
+					}
+					$.cookie('visited', 'true', { expires: 100 });
+
 					if(photoId){
 						
 						$.ajax({
@@ -195,6 +201,13 @@ $(function(){
 					}
 				},
 
+				firstTime: function(){
+					$('.ui-dialog-contain').show();
+					$('.close-popup, #map').click(function(){
+						$('.ui-dialog-contain').hide();
+					});
+				},
+
 				getUserName: function(e) {
 					e.preventDefault()
 				},
@@ -256,7 +269,6 @@ $(function(){
 							username: u
 						});
 
-						console.log(model.get('clustering'))
 						var aToken = model.get('token')
 						var userName = model.get('username');
 
